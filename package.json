@@ -9,13 +9,20 @@
   },
   "scripts": {
     "seed": "node server/database/seed.js",
-    "start": "nodemon server/index.js",
-    "build": "webpack -d --watch"
+    "start": "node server/index.js",
+    "start:dev": "nodemon server/index.js",
+    "build:dev": "webpack -d --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --colors"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.11.5",
+    "babel-jest": "^26.3.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "faker": "^5.1.0",
+    "jest": "^26.4.2",
     "jquery": "^3.5.1",
     "mongoose": "^5.10.6",
     "nodemon": "^2.0.4",
@@ -24,6 +31,9 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.10.4",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.5.0",
     "eslint": "^7.9.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
