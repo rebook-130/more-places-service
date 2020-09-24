@@ -1,15 +1,25 @@
 {
-  "name": "",
+  "name": "fec-capstone",
   "version": "",
-  "description": "",
-  "author": "",
-  "license": "",
+  "description": "More places component for AirBnb Mock Website",
+  "author": "Andrew Vuong",
+  "license": "UNLICENSED",
   "engines": {
     "node": ">=6.13.0"
   },
   "scripts": {
+    "seed": "node data/seed.js",
+    "start": "nodemon server/index.js"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "faker": "^5.1.0",
+    "jquery": "^3.5.1",
+    "mongoose": "^5.10.6",
+    "nodemon": "^2.0.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"

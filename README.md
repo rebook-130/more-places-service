@@ -4,10 +4,10 @@
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/Bookable/photo-gallery-service
+  - https://github.com/Bookable/calendar-service
+  - https://github.com/Bookable/more-places-service
+  - https://github.com/Bookable/review-service
 
 ## Table of Contents
 
