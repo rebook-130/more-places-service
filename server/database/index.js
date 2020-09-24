@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+// Holds Listing Model
+
+const mongoose = require('mongoose');
 
 // connect to listings db
 mongoose.connect('mongodb://localhost/listings', {useNewUrlParser: true});
@@ -8,7 +10,7 @@ db.once('open', () => console.log('Connected to Listings DB'));
 
 // schema
 const listingSchema = new mongoose.Schema({
-  house_id: {type: Number, unique: true},
+  houseId: {type: Number, unique: true},
   photoUrl: String,
   location: String,
   description: String,
