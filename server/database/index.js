@@ -1,6 +1,6 @@
 // Holds Listing Model
-
 const mongoose = require('mongoose');
+const random = require('mongoose-simple-random');
 
 // connect to listings db
 mongoose.connect('mongodb://localhost/listings', {useNewUrlParser: true});
@@ -9,7 +9,7 @@ db.on('error', console.error.bind(console, 'Error Connecting'));
 db.once('open', () => console.log('Connected to Listings DB'));
 
 // schema
-const listingSchema = new mongoose.Schema({
+const listingSchema = mongoose.Schema({
   houseId: {type: Number, unique: true},
   photoUrl: String,
   location: String,
@@ -23,6 +23,22 @@ const listingSchema = new mongoose.Schema({
   price: Number
 });
 
-const Listing = db.model('Listing', listingSchema);
+// add schema plugin for random documents
+listingSchema.plugin(random);
 
-module.exports = Listing;
+const Listing = mongoose.model('Listing', listingSchema);
+
+const getListings = (callback) => {
+  // given an array of houseIds, query into the collection and return the 12 documents
+  // takes in filter/field/limit/callback
+  Listing.findRandom({}, {}, {limit: 12}, function(err, results) {
+    if (!err) {
+      callback(null, results);
+    } else {
+      callback(err);
+    }
+  });
+};
+
+module.exports.Listing = Listing;
+module.exports.getListings = getListings;

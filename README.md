@@ -1,6 +1,7 @@
-# Project Name
+# Front-End Capstone
 
-> Project description
+> For this front-end project, we are building a mock "item detail page" for AirBnb. This item detail page includes  four significant modules ("widgets") on the page (see related projects below).
+
 
 ## Related Projects
 
