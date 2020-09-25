@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 // Components
-import App from '../components/App.jsx';
+import App from '../client/src/components/App.jsx';
 
 let setup = function() {
   const wrapper = shallow(<App />);

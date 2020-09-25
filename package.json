@@ -23,6 +23,8 @@
     "express": "^4.17.1",
     "faker": "^5.1.0",
     "jest": "^26.4.2",
+    "jest-environment-enzyme": "^7.1.2",
+    "jest-enzyme": "^7.1.2",
     "jquery": "^3.5.1",
     "mongoose": "^5.10.6",
     "mongoose-simple-random": "^0.4.1",
