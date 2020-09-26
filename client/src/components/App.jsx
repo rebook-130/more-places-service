@@ -2,6 +2,8 @@
 import React from 'react';
 import $ from 'jquery';
 import Listings from './Listings.jsx';
+import styled from 'styled-components';
+import { Header, Container } from '../styling.js';
 
 
 class App extends React.Component {
@@ -27,10 +29,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>More places to stay</h2>
+      <Container>
+        <Header>More places to stay</Header>
         <Listings listings={this.state.listings}/>
-      </div>
+      </Container>
     );
   }
 }
