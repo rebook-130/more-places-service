@@ -48,7 +48,11 @@ export const Frame = styled.div`
 `;
 
 export const TopFrame = styled.div`
-  padding: 7px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 15%;
+  padding: 8px;
   position: absolute;
   top: 0px;
 `;
@@ -77,6 +81,14 @@ export const HostText = styled.div`
 
 export const Heart = styled.div`
   display: inline-flex;
+`;
+
+export const HeartButton = styled.button`
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  margin-right: 10px;
 `;
 
 export const Image = styled.img`
