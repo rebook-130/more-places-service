@@ -11,16 +11,71 @@ export const Container = styled.div`
   background-color: rgb(247, 247, 247);
 `;
 
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const SelectContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 1%;
+  margin-top: 1%;
+`;
+
 export const Header = styled.h2`
   color: rgb(34, 34, 34);
   font-weight: 500;
   font-size: 22px;
   line-height: 26px;
-  padding-bottom: 10px;
+`;
+
+export const Page = styled.div`
+  font-weight: 400;
+  font-size: 14px;
+  margin-right: 16px;
+`;
+
+const Button = styled.button`
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 32px;
+  height: 32px;
+  outline: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  transition: box-shadow 0.2s ease 0s;
+
+  :hover {
+    border-color: rgba(0, 0, 0, 0.08);
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.12) 0px 6px 16px;
+    transform: scale(1.04);
+  }
+
+  :active {
+    border-color: rgba(0, 0, 0, 0.08);
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    box-shadow: none;
+    transform: scale(1);
+  }
+`;
+
+export const Prev = styled(Button)`
+  margin-right: 6px;
+`;
+
+export const Next = styled(Button)`
+  margin-left: 6px;
 `;
 
 export const List = styled.ul`
-  display: flex;
+display: flex;
   height: 100%;
   list-style: none;
   overflow: auto hidden;
