@@ -2,7 +2,7 @@
 import React from 'react';
 import $ from 'jquery';
 import styled from 'styled-components';
-import { Card, Frame, TopFrame, Host, HostText, Heart, HeartButton, Image, Rating, Star, RoomDescription, Text, Price } from '../styling.js';
+import { Card, Frame, TopFrame, Host, noHost, HostText, Heart, HeartButton, Image, Rating, Star, RoomDescription, ReviewCount, Text, Price } from '../styling.js';
 
 class ListingEntry extends React.Component {
   constructor(props) {
@@ -19,9 +19,15 @@ class ListingEntry extends React.Component {
           <Frame>
             <Image src={this.props.listing.photoUrl}></Image>
             <TopFrame>
-              <Host>
-                <HostText>SUPERHOST</HostText>
-              </Host>
+              {this.props.listing.isSuperHost &&
+                <Host>
+                  <HostText>SUPERHOST</HostText>
+                </Host>
+              }
+              {!this.props.listing.isSuperHost &&
+                <noHost>
+                </noHost>
+              }
               <Heart>
                 <HeartButton>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style={{display: 'inline-block', fill: 'rgba(0, 0, 0, 0.5)', height: '24px', width: '24px', stroke: 'rgb(255, 255, 255)', strokeWidth: 2}}>
@@ -39,7 +45,7 @@ class ListingEntry extends React.Component {
               </svg>
             </Star>
             <span>{this.props.listing.rating}</span> &nbsp;
-            <span style={{color: 'rgb(113, 113, 113)'}}>{`(${this.props.listing.reviewCount})`}</span>
+            <ReviewCount>{`(${this.props.listing.reviewCount})`}</ReviewCount>
           </Rating>
           <RoomDescription>
             <Text>{`${this.props.listing.roomType} · `}</Text>

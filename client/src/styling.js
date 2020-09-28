@@ -72,6 +72,15 @@ export const Host = styled.div`
   color: rgb(34, 34, 34);
 `;
 
+export const noHost = styled.div`
+  display: inline-flex;
+  vertical-align: top;
+  background-clip: padding-box;
+  max-width: 100%;
+  border-radius: 4px;
+  padding: 4px 8px;
+`;
+
 export const HostText = styled.div`
   font-size: 12px;
   line-height: 16px;
@@ -118,6 +127,10 @@ export const RoomDescription = styled.div`
   overflow: hidden;
   white-space: nowrap;
   display: block;
+`;
+
+export const ReviewCount = styled.span`
+  color: rgb(113, 113, 113);
 `;
 
 export const Text = styled.span`
