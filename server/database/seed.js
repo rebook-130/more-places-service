@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 // helper fcn to generate random number
 let getRandomInt = function(min, max, rating = false) {
   if (rating) {
-    result = (Math.floor(Math.random() * (max - min + 1) + min) + Math.random()).toFixed(1);
-    return result > 5 ? 5 : parseFloat(result);
+    result = (Math.floor(Math.random() * (max - min + 1) + min) + Math.random()).toFixed(2);
+    return result > 5 ? '5.0' : parseFloat(result).toString();
   }
   return Math.floor(Math.random() * (max - min + 1) + min);
 };

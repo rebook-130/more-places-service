@@ -1,20 +1,22 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding-left: 80px;
-  padding-right: 80px;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  margin-top: 10%;
+  padding: 48px 80px;
   max-width: 1120px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  background-color: rgb(247, 247, 247);
 `;
 
 export const Header = styled.h2`
   color: rgb(34, 34, 34);
-  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 22px;
   line-height: 26px;
+  padding-bottom: 10px;
 `;
 
 export const List = styled.ul`
@@ -23,7 +25,7 @@ export const List = styled.ul`
   list-style: none;
   overflow: auto hidden;
   padding-left: 0px;
-  min-width: 100%;
+  margin-left: -9px;
   scroll-snap-type: x mandatory;
   ::-webkit-scrollbar {display:none;}
 `;
@@ -71,10 +73,9 @@ export const Host = styled.div`
 `;
 
 export const HostText = styled.div`
-  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
   font-size: 12px;
   line-height: 16px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.04em;
   max-height: 16px;
 `;
@@ -98,7 +99,9 @@ export const Image = styled.img`
 `;
 
 export const Rating = styled.div`
+  display: flex;
   margin-bottom: 6px;
+  font-size: 14px;
 `;
 
 export const Star = styled.span`
@@ -108,7 +111,6 @@ export const Star = styled.span`
 `;
 
 export const RoomDescription = styled.div`
-  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
   line-height: 20px;
   margin-bottom: 2px;
   max-height: 20px;
@@ -119,10 +121,10 @@ export const RoomDescription = styled.div`
 `;
 
 export const Text = styled.span`
-  font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
   line-height: 20px;
+  font-weight: 300;
 `;
 
 export const Price = styled.span`
-  font-weight: 800;
+  font-weight: 600;
 `;

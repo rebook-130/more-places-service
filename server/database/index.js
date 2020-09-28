@@ -15,7 +15,7 @@ const listingSchema = mongoose.Schema({
   location: String,
   description: String,
   isSuperHost: Boolean,
-  rating: Number,
+  rating: String,
   reviewCount: Number,
   isSaved: Boolean,
   roomType: String,
