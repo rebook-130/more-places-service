@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 // helper fcn to generate random number
 let getRandomInt = function(min, max, rating = false) {
   if (rating) {
-    result = (Math.floor(Math.random() * (max - min + 1) + min) + Math.random()).toFixed(1);
-    return result > 5 ? 5 : parseFloat(result);
+    result = (Math.floor(Math.random() * (max - min + 1) + min) + Math.random()).toFixed(2);
+    return result > 5 ? '5.0' : parseFloat(result).toString();
   }
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
@@ -27,10 +27,10 @@ for (let i = 0; i < 50; i++) {
     description: description[Math.floor(Math.random() * description.length)],
     isSuperHost: isSuperHost,
     rating: getRandomInt(3, 5, true),
-    reviewCount: getRandomInt(0, 500),
+    reviewCount: getRandomInt(0, 100),
     isSaved: false,
     roomType: roomType[Math.floor(Math.random() * roomType.length)],
-    numBeds: getRandomInt(0, 7),
+    numBeds: getRandomInt(0, 5),
     price: getRandomInt(80, 500)
   };
   listings.push(newListing);
