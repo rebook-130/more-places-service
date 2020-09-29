@@ -2,7 +2,7 @@
 import React from 'react';
 import $ from 'jquery';
 import styled from 'styled-components';
-import { Card, Frame, TopFrame, Host, noHost, HostText, Heart, HeartButton, Image, Rating, Star, RoomDescription, ReviewCount, Text, Price } from '../styling.js';
+import { Card, Frame, TopFrame, Host, NoHost, HostText, Heart, HeartButton, Image, Rating, Star, RoomDescription, ReviewCount, Text, Price } from '../styling.jsx';
 
 class ListingEntry extends React.Component {
   constructor(props) {
@@ -25,8 +25,8 @@ class ListingEntry extends React.Component {
                 </Host>
               }
               {!this.props.listing.isSuperHost &&
-                <noHost>
-                </noHost>
+                <NoHost>
+                </NoHost>
               }
               <Heart>
                 <HeartButton>

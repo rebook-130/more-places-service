@@ -3,7 +3,7 @@ import React from 'react';
 import $ from 'jquery';
 import Listings from './Listings.jsx';
 import styled from 'styled-components';
-import { Header, Container, TitleContainer, SelectContainer, Prev, Next, Page } from '../styling.js';
+import { Header, Container, TitleContainer, SelectContainer, Prev, Next, Page } from '../styling.jsx';
 
 
 class App extends React.Component {
@@ -25,6 +25,14 @@ class App extends React.Component {
         });
       }
     });
+  }
+
+  handleNext(page) {
+
+  }
+
+  handlePrev(page) {
+
   }
 
   render() {

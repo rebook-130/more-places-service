@@ -127,7 +127,7 @@ export const Host = styled.div`
   color: rgb(34, 34, 34);
 `;
 
-export const noHost = styled.div`
+export const NoHost = styled.div`
   display: inline-flex;
   vertical-align: top;
   background-clip: padding-box;
