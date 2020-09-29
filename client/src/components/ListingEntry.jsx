@@ -15,7 +15,7 @@ class ListingEntry extends React.Component {
   render() {
     return (
       <Card>
-        <div>
+        <div ref={this.props.refs[this.props.index]}>
           <Frame>
             <Image src={this.props.listing.photoUrl}></Image>
             <TopFrame>
