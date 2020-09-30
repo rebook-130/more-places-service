@@ -12,7 +12,7 @@ class App extends React.Component {
     this.state = {
       listings: [],
       refs: { 0: React.createRef(), 1: React.createRef(), 2: React.createRef(), 3: React.createRef(), 4: React.createRef(), 5: React.createRef(), 6: React.createRef(), 7: React.createRef(), 8: React.createRef(), 9: React.createRef(), 10: React.createRef(), 11: React.createRef()},
-      page: 1
+      page: 1,
     };
     this.handlePrev = this.handlePrev.bind(this);
     this.handleNext = this.handleNext.bind(this);
@@ -31,6 +31,7 @@ class App extends React.Component {
     });
   }
 
+  // slide to next 4 slides
   handleNext() {
     let newPage;
     if (this.state.page === 3) {
@@ -48,6 +49,7 @@ class App extends React.Component {
     });
   }
 
+  // slide to prev 4 slides
   handlePrev() {
     let newPage;
     if (this.state.page === 3) {
@@ -84,7 +86,7 @@ class App extends React.Component {
             </Next>
           </SelectContainer>
         </TitleContainer>
-        <Listings listings={this.state.listings} refs={this.state.refs}/>
+        <Listings listings={this.state.listings} refs={this.state.refs} />
       </Container>
     );
   }

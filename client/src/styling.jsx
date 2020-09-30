@@ -158,6 +158,12 @@ export const HeartButton = styled.button`
   border-radius: 50%;
   outline: none;
   margin-right: 10px;
+  cursor: pointer;
+
+  :active {
+    transform: scale(0.92);
+    transition: 0.25s ease
+  }
 `;
 
 export const Image = styled.img`
