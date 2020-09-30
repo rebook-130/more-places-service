@@ -75,7 +75,7 @@ export const Next = styled(Button)`
 `;
 
 export const List = styled.ul`
-display: flex;
+  display: flex;
   height: 100%;
   list-style: none;
   overflow: auto hidden;
@@ -83,6 +83,10 @@ display: flex;
   margin-left: -9px;
   scroll-snap-type: x mandatory;
   ::-webkit-scrollbar {display:none;}
+`;
+
+export const Entry = styled.div`
+  width: 100%;
 `;
 
 export const Card = styled.li`
@@ -154,6 +158,12 @@ export const HeartButton = styled.button`
   border-radius: 50%;
   outline: none;
   margin-right: 10px;
+  cursor: pointer;
+
+  :active {
+    transform: scale(0.92);
+    transition: 0.25s ease
+  }
 `;
 
 export const Image = styled.img`

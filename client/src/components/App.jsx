@@ -10,8 +10,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listings: []
+      listings: [],
+      refs: { 0: React.createRef(), 1: React.createRef(), 2: React.createRef(), 3: React.createRef(), 4: React.createRef(), 5: React.createRef(), 6: React.createRef(), 7: React.createRef(), 8: React.createRef(), 9: React.createRef(), 10: React.createRef(), 11: React.createRef()},
+      page: 1,
     };
+    this.handlePrev = this.handlePrev.bind(this);
+    this.handleNext = this.handleNext.bind(this);
   }
 
   // get 12 listings
@@ -27,12 +31,40 @@ class App extends React.Component {
     });
   }
 
-  handleNext(page) {
-
+  // slide to next 4 slides
+  handleNext() {
+    let newPage;
+    if (this.state.page === 3) {
+      newPage = 1;
+      this.state.refs[0].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+    } else if (this.state.page === 2) {
+      newPage = 3;
+      this.state.refs[11].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+    } else {
+      newPage = 2;
+      this.state.refs[7].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+    }
+    this.setState({
+      page: newPage
+    });
   }
 
-  handlePrev(page) {
-
+  // slide to prev 4 slides
+  handlePrev() {
+    let newPage;
+    if (this.state.page === 3) {
+      newPage = 2;
+      this.state.refs[4].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+    } else if (this.state.page === 2) {
+      newPage = 1;
+      this.state.refs[0].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+    } else {
+      newPage = 3;
+      this.state.refs[11].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+    }
+    this.setState({
+      page: newPage
+    });
   }
 
   render() {
@@ -41,20 +73,20 @@ class App extends React.Component {
         <TitleContainer>
           <Header>More places to stay</Header>
           <SelectContainer>
-            <Page> 1 / 3 </Page>
-            <Prev>
+            <Page> {this.state.page} / 3 </Page>
+            <Prev onClick={this.handlePrev}>
               <svg viewBox="-5 -8 30 30" focusable="false">
                 <path d="m13.7 16.29a1 1 0 1 1 -1.42 1.41l-8-8a1 1 0 0 1 0-1.41l8-8a1 1 0 1 1 1.42 1.41l-7.29 7.29z"></path>
               </svg>
             </Prev>
-            <Next>
+            <Next onClick={this.handleNext}>
               <svg viewBox="-5 -8 30 30">
                 <path d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z"></path>
               </svg>
             </Next>
           </SelectContainer>
         </TitleContainer>
-        <Listings listings={this.state.listings}/>
+        <Listings listings={this.state.listings} refs={this.state.refs} />
       </Container>
     );
   }
