@@ -16,8 +16,11 @@ const slideDown = keyframes`
 `;
 
 const StyledModal = Modal.styled`
-  width: 20rem;
-  height: 20rem;
+  max-width: 568px;
+  max-height: 529px;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,6 +35,41 @@ const StyledModal = Modal.styled`
     animation-name: ${slideDown};
     animation-duration: 0.5s;
   }
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  place-self: flex-start;
+  margin-left: 25%;
+  padding: 0px 24px;
+  width: 100%;
+  min-height: 64px;
+  border-bottom: 1px solid rgb(235, 235, 235) !important;
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
+  place-self: flex-end;
+  width: 100%;
+`;
+
+const CloseButton = styled.button`
+  padding: 0px 24px;
+  place-self: flex-start;
+  min-height: 64px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  position: relative;
+  background: transparent;
+`;
+
+const Text = styled.h1`
+  font-size: 1em;
+  margin: 0px;
+  padding: 0px;
 `;
 
 const SaveModal = () => {
@@ -72,8 +110,16 @@ const SaveModal = () => {
         backgroundProps={{ opacity }}
         className={isOpen ? 'open' : 'closed'}
       >
-        <span>I am a modal!</span>
-        <button onClick={toggleModal}>Close me</button>
+        <CloseButton onClick={toggleModal}>
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style={{display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'black', strokeWidth: 3}}><path d="m6 6 20 20"></path><path d="m26 6-20 20"></path></svg>
+        </CloseButton>
+        <ModalHeader>
+          <Text>Save to a list</Text>
+        </ModalHeader>
+        <div>Body</div>
+        <ModalFooter>
+          <button>Create a list</button>
+        </ModalFooter>
       </StyledModal>
     </Heart>
   );
