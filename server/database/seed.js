@@ -29,6 +29,7 @@ for (let i = 0; i < 50; i++) {
     rating: getRandomInt(3, 5, true),
     reviewCount: getRandomInt(0, 100),
     isSaved: false,
+    savedTo: 'None',
     roomType: roomType[Math.floor(Math.random() * roomType.length)],
     numBeds: getRandomInt(0, 5),
     price: getRandomInt(80, 500)

@@ -3,6 +3,7 @@ import Modal from 'styled-react-modal';
 import styled from 'styled-components';
 import { ModalButton, CloseButton, SubmitButton, ModalHeader, ModalText, ModalFooter, Heart, HeartButton } from '../styling.jsx';
 import { keyframes } from 'styled-components';
+import $ from 'jquery';
 
 const Form = Modal.styled`
   position: relative;
@@ -105,7 +106,26 @@ class FormModal extends React.Component {
   }
 
   handleSubmit() {
-    console.log('submitted');
+    // send ajax post req to server to insert into saved lists
+    $.ajax({
+      method: 'POST',
+      url: '/api/create_list',
+      data: {
+        name: this.state.value,
+        photoUrl: this.props.photoUrl
+      }
+    });
+    // send ajax patch req to server to update isSaved/savedto
+    $.ajax({
+      method: 'PATCH',
+      url: '/api/update_listing',
+      data: {
+        name: this.state.value,
+        houseId: this.props.listing
+      }
+    });
+    // close pop ups
+    this.props.toggleCreate();
   }
 
   render() {

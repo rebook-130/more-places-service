@@ -37,7 +37,7 @@ class ListingEntry extends React.Component {
                   </NoHost>
                 }
 
-                <SaveModal />
+                <SaveModal listing={this.props.listing.houseId} photoUrl={this.props.listing.photoUrl} collections={this.props.collections}/>
 
               </TopFrame>
             </Frame>

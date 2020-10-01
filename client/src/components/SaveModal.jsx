@@ -3,6 +3,7 @@ import Modal from 'styled-react-modal';
 import styled from 'styled-components';
 import { ModalButton, CloseButton, CreateButton, ModalHeader, ModalText, ModalFooter, Heart, HeartButton } from '../styling.jsx';
 import { keyframes } from 'styled-components';
+import Collections from './Collections.jsx';
 
 // sliding animations
 const slideUp = keyframes`
@@ -61,6 +62,7 @@ const SaveModal = (props) => {
         </div>
       </ModalHeader>
       <div>
+        <Collections collections={props.collections}/>
       </div>
       <ModalFooter>
         <CreateButton onClick={props.toggleCreate}>Create a list</CreateButton>

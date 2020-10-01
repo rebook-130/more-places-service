@@ -13,12 +13,13 @@ class App extends React.Component {
       listings: [],
       refs: { 0: React.createRef(), 1: React.createRef(), 2: React.createRef(), 3: React.createRef(), 4: React.createRef(), 5: React.createRef(), 6: React.createRef(), 7: React.createRef(), 8: React.createRef(), 9: React.createRef(), 10: React.createRef(), 11: React.createRef()},
       page: 1,
+      collections: []
     };
     this.handlePrev = this.handlePrev.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
 
-  // get 12 listings
+  // get 12 listings and saved collections
   componentDidMount() {
     $.ajax({
       method: 'GET',
@@ -26,6 +27,15 @@ class App extends React.Component {
       success: (data) => {
         this.setState({
           listings: data
+        });
+      }
+    });
+    $.ajax({
+      method: 'GET',
+      url: '/api/saved_lists',
+      success: (data) => {
+        this.setState({
+          collections: data
         });
       }
     });
@@ -86,7 +96,7 @@ class App extends React.Component {
             </Next>
           </SelectContainer>
         </TitleContainer>
-        <Listings listings={this.state.listings} refs={this.state.refs} />
+        <Listings listings={this.state.listings} refs={this.state.refs} collections={this.state.collections}/>
       </Container>
     );
   }
