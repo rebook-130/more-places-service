@@ -16,6 +16,7 @@ const slideDown = keyframes`
 `;
 
 const StyledModal = Modal.styled`
+  position: relative;
   max-width: 568px;
   max-height: 529px;
   width: 100%;
@@ -37,26 +38,39 @@ const StyledModal = Modal.styled`
   }
 `;
 
-const ModalHeader = styled.div`
+const ModalHeader = styled.header`
   display: flex;
-  place-self: flex-start;
-  margin-left: 25%;
-  padding: 0px 24px;
+  position: absolute;
+  top: 0;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 64px;
-  border-bottom: 1px solid rgb(235, 235, 235) !important;
+  border-bottom: 1px solid rgb(235, 235, 235);
 `;
 
-const ModalFooter = styled.div`
+const ModalFooter = styled.footer`
   display: flex;
-  place-self: flex-end;
+  position: absolute;
+  bottom: 0;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  min-height: 64px;
+  border-top: 1px solid rgb(235, 235, 235);
+`;
+
+const Button = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  z-index: 10;
 `;
 
 const CloseButton = styled.button`
-  padding: 0px 24px;
-  place-self: flex-start;
-  min-height: 64px;
+  padding: 4px;
   border-radius: 50%;
   border: none;
   outline: none;
@@ -64,12 +78,45 @@ const CloseButton = styled.button`
   cursor: pointer;
   position: relative;
   background: transparent;
+
+  :hover {
+    border: none;
+    background: rgb(247, 247, 247);
+  }
+
+  :active {
+    transform: scale(0.92) !important;
+  }
 `;
 
 const Text = styled.h1`
   font-size: 1em;
   margin: 0px;
   padding: 0px;
+`;
+
+const CreateButton = styled.button`
+  cursor: pointer;
+  width: 90%;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  background: transparent;
+  margin: 0px;
+  text-decoration: underline;
+  transition: box-shadow 0.2s ease 0s;
+
+  :hover {
+    border: none;
+    background: rgb(247, 247, 247);
+  }
+
+  :active {
+    transform: scale(0.96) !important;
+  }
 `;
 
 const SaveModal = () => {
@@ -110,15 +157,19 @@ const SaveModal = () => {
         backgroundProps={{ opacity }}
         className={isOpen ? 'open' : 'closed'}
       >
-        <CloseButton onClick={toggleModal}>
-          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style={{display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'black', strokeWidth: 3}}><path d="m6 6 20 20"></path><path d="m26 6-20 20"></path></svg>
-        </CloseButton>
+        <Button>
+          <CloseButton onClick={toggleModal}>
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style={{display: 'block', fill: 'none', height: '16px', width: '16px', stroke: 'black', strokeWidth: 3}}><path d="m6 6 20 20"></path><path d="m26 6-20 20"></path></svg>
+          </CloseButton>
+        </Button>
         <ModalHeader>
-          <Text>Save to a list</Text>
+          <div>
+            <Text>Save to a list</Text>
+          </div>
         </ModalHeader>
         <div>Body</div>
         <ModalFooter>
-          <button>Create a list</button>
+          <CreateButton>Create a list</CreateButton>
         </ModalFooter>
       </StyledModal>
     </Heart>
