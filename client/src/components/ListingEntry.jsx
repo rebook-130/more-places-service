@@ -36,7 +36,9 @@ class ListingEntry extends React.Component {
                   <NoHost>
                   </NoHost>
                 }
+
                 <SaveModal />
+
               </TopFrame>
             </Frame>
             <Rating>

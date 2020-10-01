@@ -206,3 +206,113 @@ export const Text = styled.span`
 export const Price = styled.span`
   font-weight: 600;
 `;
+
+// MODAL STYLING
+
+export const ModalHeader = styled.header`
+  display: flex;
+  position: absolute;
+  top: 0;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 64px;
+  border-bottom: 1px solid rgb(235, 235, 235);
+`;
+
+export const ModalFooter = styled.footer`
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  padding: 5px 0px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 64px;
+  border-top: 1px solid rgb(235, 235, 235);
+`;
+
+export const ModalButton = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  z-index: 10;
+`;
+
+export const CloseButton = styled.button`
+  padding: 4px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  position: relative;
+  background: transparent;
+
+  :hover {
+    border: none;
+    background: rgb(247, 247, 247);
+  }
+
+  :active {
+    transform: scale(0.92) !important;
+  }
+`;
+
+export const ModalText = styled.h1`
+  font-size: 1em;
+  margin: 0px;
+  padding: 0px;
+`;
+
+export const CreateButton = styled.button`
+  cursor: pointer;
+  width: 90%;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  background: transparent;
+  margin: 0px;
+  text-decoration: underline;
+  transition: box-shadow 0.2s ease 0s;
+
+  :hover {
+    border: none;
+    background: rgb(247, 247, 247);
+  }
+
+  :active {
+    transform: scale(0.96) !important;
+  }
+`;
+
+export const SubmitButton = styled.button`
+  cursor: pointer;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  outline: none;
+  padding: 14px 24px;
+  border: none;
+  background: rgb(34, 34, 34);
+  color: rgb(255, 255, 255);
+  width: 90%;
+
+  :active {
+    transform: scale(0.96);
+  }
+
+  :disabled {
+    cursor: not-allowed !important;
+    opacity: 1 !important;
+    background: rgb(221, 221, 221) !important;
+    color: rgb(255, 255, 255) !important;
+  }
+`;
