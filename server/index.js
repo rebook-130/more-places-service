@@ -52,7 +52,6 @@ app.patch('/api/update_listing', (req, res) => {
   // update the saved props of a listing when created
   var filter = { houseId: req.body.houseId };
   var update = { savedTo: req.body.name, isSaved: true};
-  console.log(filter, update);
   db.Listing.findOneAndUpdate(filter, { '$set': update}).exec(function(err) {
     if (err) {
       res.status(500).send('Failed to update');
@@ -64,8 +63,7 @@ app.patch('/api/update_listing', (req, res) => {
 
 app.patch('/api/update_collection', (req, res) => {
   // update the saved props of a listing and count of collection when clicked
-  console.log(req.body.houseId, req.body.name, req.body.isSaved);
-  if (req.body.isSaved === true) {
+  if (req.body.isSaved === 'true') {
     var update = { savedTo: req.body.name, isSaved: req.body.isSaved};
     // if saving, increment count and update save props of listing to true
     db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
@@ -76,31 +74,40 @@ app.patch('/api/update_collection', (req, res) => {
           if (err) {
             res.status(500).send('Failed to update collection');
           } else {
-            console.log('increment Count');
             res.status(202).send('Updated listing & collection');
           }
         });
       }
     });
   } else {
-    var update = { savedTo:'None', isSaved: req.body.isSaved};
+    var update = { isSaved: req.body.isSaved};
     // else, decrement count and change save to false
-    db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
+    db.SavedLists.findOneAndUpdate({name: req.body.name}, { '$inc': {count: -1}}).exec((err) => {
       if (err) {
         res.status(500).send('Failed to update listing');
       } else {
-        db.SavedLists.findOneAndUpdate({name: req.body.name}, { '$inc': {count: -1}}).exec((err) => {
+        db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
           if (err) {
             res.status(500).send('Failed to update collection');
           } else {
-            console.log('decrement count');
             res.status(202).send('Updated listing & collection');
           }
         });
       }
     });
   }
+});
 
+app.get('/api/collection_name', (req, res) => {
+  // get all lists that have been created
+  db.Listing.find({houseId: req.query.houseId}, 'savedTo', (err, data) => {
+    if (err) {
+      res.status(400).send('Failed to get lists');
+    } else {
+      result = JSON.parse(JSON.stringify(data));
+      res.status(200).send(result[0]);
+    }
+  });
 });
 
 app.listen(port, () => {

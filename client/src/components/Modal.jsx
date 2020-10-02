@@ -54,9 +54,8 @@ class ListingModal extends React.Component {
     });
   }
 
-  // if saved, onclick should update save to false and decrement count on list
-  handleSave() {
-    // this.props.savedTo ajax patch req inc count and updated saved to true
+  handleSave(input) {
+    // saves/updates the database based on clicks on existing lists in the modal
     $.ajax({
       method: 'PATCH',
       url: '/api/update_collection',
@@ -72,25 +71,53 @@ class ListingModal extends React.Component {
   }
 
   handleUnsave() {
+    // ajax get request to get the name by id?
     $.ajax({
-      method: 'PATCH',
-      url: '/api/update_collection',
+      method: 'GET',
+      url: '/api/collection_name',
       data: {
-        houseId: this.props.listing,
-        name: this.props.savedTo,
-        isSaved: false
+        houseId: this.props.listing
       },
-      success: () => {
-        this.setState({
-          saved: false,
+      success: (data) => {
+        $.ajax({
+          method: 'PATCH',
+          url: '/api/update_collection',
+          data: {
+            houseId: this.props.listing,
+            name: data.savedTo,
+            isSaved: false
+          },
+          success: () => {
+            this.setState({
+              saved: false,
+            });
+            // update component list
+            this.props.update();
+          }
         });
-        // update component list
-        this.props.update();
       }
     });
+    // unsaves/updates database based on heart clicking
+    // $.ajax({
+    //   method: 'PATCH',
+    //   url: '/api/update_collection',
+    //   data: {
+    //     houseId: this.props.listing,
+    //     name: this.props.savedTo,
+    //     isSaved: false
+    //   },
+    //   success: () => {
+    //     this.setState({
+    //       saved: false,
+    //     });
+    //     // update component list
+    //     this.props.update();
+    //   }
+    // });
   }
 
   handleFormUpdate() {
+    // saves/updates database based on create list form submit button
     this.setState({
       saved: true,
       isOpen: !this.state.isOpen

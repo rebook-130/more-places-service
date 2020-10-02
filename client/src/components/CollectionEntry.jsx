@@ -82,7 +82,7 @@ const Entry = (props) => {
 
   return (
     <Container>
-      <Button onClick={props.handleSave}>
+      <Button onClick={() => { props.handleSave(props.collection.name); }}>
         <div>
           <ImageContainer>
             <Image src={props.collection.photoUrl}></Image>
