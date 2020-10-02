@@ -14,16 +14,16 @@ let getRandomInt = function(min, max, rating = false) {
 // make a bunch of listings
 let listings = [];
 // pick description/roomtype at random
-const roomType = ['Entire place', 'Shared Room', 'Private Room', 'Hotel Room'];
+const roomType = ['Entire Place', 'Shared Room', 'Private Room', 'Hotel Room', 'Entire Villa', 'Entire Guesthouse', 'Entire Cottage', 'Entire Apartment', 'Private Studio'];
 const description = ['Central Location!', 'Comfy and Quaint!', 'Very quiet neighborhood', '100% Private!', 'Ultra Luxury Room', '420 Friendly Stay!', 'Cozy and Comfortable', 'Wake up to spectacular views', 'Panoramic Views', 'Spacious', 'Exquisite and Close to everything!', 'Stunning Views', 'Lovers Paradise', 'Minimalist Dream', 'Beautiful Midcentury Oasis', 'Contemporary Dream', 'Earthy Modernist Home', 'Large Private Area'];
+const location = ['San Diego', 'Malibu', 'Los Angeles', 'Big Bear Lake', 'Joshua Tree', 'Palm Springs', 'Crestline', 'Newport', 'Pasadena', 'Santa Barbara', 'San Francisco', 'Granada', 'Berkeley', 'San Jose', 'Long Beach', 'Santa Monica', 'Anaheim', 'Burbank', 'Sacramento', 'Hundleby', 'Yucca Valley', 'Salisbury', 'Sutton', 'Lake Arrowhead'];
 
 for (let i = 0; i < 50; i++) {
-  const location = faker.address.city();
   const isSuperHost = faker.random.boolean(25);
   let newListing = {
     houseId: i,
     photoUrl: `https://airbnb-fake-images.s3-us-west-1.amazonaws.com/img-${i+1}.jpg`,
-    location: location,
+    location: location[Math.floor(Math.random() * location.length)],
     description: description[Math.floor(Math.random() * description.length)],
     isSuperHost: isSuperHost,
     rating: getRandomInt(3, 5, true),
@@ -31,7 +31,7 @@ for (let i = 0; i < 50; i++) {
     isSaved: false,
     savedTo: 'None',
     roomType: roomType[Math.floor(Math.random() * roomType.length)],
-    numBeds: getRandomInt(0, 5),
+    numBeds: getRandomInt(1, 7),
     price: getRandomInt(80, 500)
   };
   listings.push(newListing);
