@@ -17,9 +17,10 @@ class App extends React.Component {
     };
     this.handlePrev = this.handlePrev.bind(this);
     this.handleNext = this.handleNext.bind(this);
+    this.update = this.update.bind(this);
   }
 
-  // get 12 listings and saved collections
+  // get 12 listings
   componentDidMount() {
     $.ajax({
       method: 'GET',
@@ -30,15 +31,8 @@ class App extends React.Component {
         });
       }
     });
-    $.ajax({
-      method: 'GET',
-      url: '/api/saved_lists',
-      success: (data) => {
-        this.setState({
-          collections: data
-        });
-      }
-    });
+    // get collections
+    this.update();
   }
 
   // slide to next 4 slides
@@ -77,6 +71,22 @@ class App extends React.Component {
     });
   }
 
+  // updates collections in modal on changes
+  update() {
+    console.log('Fcn Called');
+    $.ajax({
+      method: 'GET',
+      url: '/api/saved_lists',
+      success: (data) => {
+        console.log('Updating collections');
+        this.setState({
+          collections: data
+        });
+      }
+    });
+  }
+
+
   render() {
     return (
       <Container>
@@ -96,7 +106,7 @@ class App extends React.Component {
             </Next>
           </SelectContainer>
         </TitleContainer>
-        <Listings listings={this.state.listings} refs={this.state.refs} collections={this.state.collections}/>
+        <Listings listings={this.state.listings} refs={this.state.refs} collections={this.state.collections} update={this.update}/>
       </Container>
     );
   }

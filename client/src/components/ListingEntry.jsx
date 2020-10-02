@@ -37,7 +37,7 @@ class ListingEntry extends React.Component {
                   </NoHost>
                 }
 
-                <PopupModal listing={this.props.listing.houseId} photoUrl={this.props.listing.photoUrl} saved={this.props.listing.isSaved} savedTo={this.props.listing.savedTo} collections={this.props.collections}/>
+                <PopupModal listing={this.props.listing.houseId} photoUrl={this.props.listing.photoUrl} saved={this.props.listing.isSaved} savedTo={this.props.listing.savedTo} update={this.props.update} collections={this.props.collections} />
 
               </TopFrame>
             </Frame>

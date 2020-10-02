@@ -62,7 +62,7 @@ const SaveModal = (props) => {
         </div>
       </ModalHeader>
       <div>
-        <Collections collections={props.collections}/>
+        <Collections collections={props.collections} handleSave={props.handleSave}/>
       </div>
       <ModalFooter>
         <CreateButton onClick={props.toggleCreate}>Create a list</CreateButton>

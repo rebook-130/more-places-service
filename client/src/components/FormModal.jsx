@@ -126,6 +126,7 @@ class FormModal extends React.Component {
     });
     // close pop ups
     this.props.toggleCreate();
+    this.props.handleUpdate();
   }
 
   render() {

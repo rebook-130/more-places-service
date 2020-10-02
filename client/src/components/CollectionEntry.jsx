@@ -78,39 +78,24 @@ const Count = styled.div`
   color: rgb(34, 34, 34);
 `;
 
-class Entry extends React.Component {
+const Entry = (props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      count: this.props.collection.count,
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  // decrement/increment count/saved
-  handleClick() {
-
-  }
-
-  render() {
-    return (
-      <Container>
-        <Button onClick={this.handleClick}>
-          <div>
-            <ImageContainer>
-              <Image src={this.props.collection.photoUrl}></Image>
-            </ImageContainer>
-            <Description>
-              <Time>{this.props.collection.time}</Time>
-              <Name>{this.props.collection.name}</Name>
-              <Count>{this.state.count} stay</Count>
-            </Description>
-          </div>
-        </Button>
-      </Container>
-    );
-  }
-}
+  return (
+    <Container>
+      <Button onClick={props.handleSave}>
+        <div>
+          <ImageContainer>
+            <Image src={props.collection.photoUrl}></Image>
+          </ImageContainer>
+          <Description>
+            <Time>{props.collection.time}</Time>
+            <Name>{props.collection.name}</Name>
+            <Count>{props.collection.count} stay</Count>
+          </Description>
+        </div>
+      </Button>
+    </Container>
+  );
+};
 
 export default Entry;
