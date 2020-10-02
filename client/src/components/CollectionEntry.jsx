@@ -79,7 +79,7 @@ const Count = styled.div`
 `;
 
 const Entry = (props) => {
-
+  var stays = (props.collection.count === 1) ? ('stay') : ('stays');
   return (
     <Container>
       <Button onClick={() => { props.handleSave(props.collection.name); }}>
@@ -90,7 +90,8 @@ const Entry = (props) => {
           <Description>
             <Time>{props.collection.time}</Time>
             <Name>{props.collection.name}</Name>
-            <Count>{props.collection.count} stay</Count>
+            {props.collection.count <= 0 && <Count>Nothing saved yet</Count>}
+            {props.collection.count > 0 && <Count>{`${props.collection.count} ${stays}`}</Count>}
           </Description>
         </div>
       </Button>
