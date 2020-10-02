@@ -84,14 +84,13 @@ class Entry extends React.Component {
     super(props);
     this.state = {
       count: this.props.collection.count,
-      photoUrl: this.props.collection.photoUrl
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
   // decrement/increment count/saved
   handleClick() {
-    console.log(this.props.collection);
+
   }
 
   render() {
@@ -100,7 +99,7 @@ class Entry extends React.Component {
         <Button onClick={this.handleClick}>
           <div>
             <ImageContainer>
-              <Image src={this.state.photoUrl}></Image>
+              <Image src={this.props.collection.photoUrl}></Image>
             </ImageContainer>
             <Description>
               <Time>{this.props.collection.time}</Time>

@@ -16,7 +16,7 @@ const Body = styled.div`
 
 const Collections = (props) => {
 
-  const savedLists = props.collections.map((collection, index) => <Entry key={index} collection={collection}/>);
+  const savedLists = props.collections.map((collection) => <Entry key={collection.name} collection={collection}/>);
   return (
     <Body>{savedLists}</Body>
   );

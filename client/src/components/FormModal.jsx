@@ -112,7 +112,7 @@ class FormModal extends React.Component {
       url: '/api/create_list',
       data: {
         name: this.state.value,
-        photoUrl: this.props.photoUrl
+        photoUrl: `https://source.unsplash.com/480x480/?home&sig=${Math.random()}`
       }
     });
     // send ajax patch req to server to update isSaved/savedto
