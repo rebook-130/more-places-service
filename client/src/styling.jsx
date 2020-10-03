@@ -1,11 +1,11 @@
 import styled from 'styled-components';
+import { device } from './media.jsx';
 
 export const Container = styled.div`
   font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
   margin-top: 10%;
   padding: 48px 80px;
   max-width: 1120px;
-  width: 100%;
   margin-left: auto;
   margin-right: auto;
   background-color: rgb(247, 247, 247);
@@ -91,12 +91,24 @@ export const Entry = styled.div`
 
 export const Card = styled.li`
   border-width: 0px 10px;
-  max-width: 23.2%;
-  flex: 0 0 25%;
   border-style: solid;
   border-color: transparent;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+
+  // Adjust based on screen width
+  @media ${device.laptopL} {
+    max-width: 23.2%;
+    flex: 0 0 25%;
+  }
+  @media ${device.laptopM} {
+    max-width: 31.3%;
+    flex: 0 0 32%;
+  }
+  @media ${device.laptopS} {
+    max-width: 66%;
+    flex: 0 0 66%;
+  }
 `;
 
 export const Frame = styled.div`
@@ -169,7 +181,7 @@ export const HeartButton = styled.button`
 export const Image = styled.img`
   object-fit: fill;
   width: 100%;
-  height: 173px;
+  height: 30vh;
 `;
 
 export const Rating = styled.div`
