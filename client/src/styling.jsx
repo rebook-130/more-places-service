@@ -106,6 +106,10 @@ export const Card = styled.li`
     flex: 0 0 32%;
   }
   @media ${device.laptopS} {
+    max-width: 40%;
+    flex: 0 0 40%;
+  }
+  @media ${device.laptopXS} {
     max-width: 66%;
     flex: 0 0 66%;
   }
@@ -113,7 +117,7 @@ export const Card = styled.li`
 
 export const Frame = styled.div`
   margin-bottom: 10px;
-  max-width: 265px;
+  max-width: 100%;
   max-height: 173px;
   display: block;
   contain: content;
@@ -179,9 +183,14 @@ export const HeartButton = styled.button`
 `;
 
 export const Image = styled.img`
-  object-fit: fill;
+  object-fit: cover;
   width: 100%;
   height: 30vh;
+
+  // Adjust based on screen height
+  @media ${'(max-height: 600px)'} {
+    height: 100% !important;
+  }
 `;
 
 export const Rating = styled.div`
