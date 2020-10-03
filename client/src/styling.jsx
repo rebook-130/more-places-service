@@ -186,6 +186,8 @@ export const Image = styled.img`
   object-fit: cover;
   width: 100%;
   height: 30vh;
+  bottom: 10px;
+  position: relative;
 
   // Adjust based on screen height
   @media ${'(max-height: 600px)'} {
