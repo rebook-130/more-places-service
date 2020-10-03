@@ -8,7 +8,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error Connecting'));
 db.once('open', () => console.log('Connected to Listings DB'));
 
-// schema
+// listing schema
 const listingSchema = mongoose.Schema({
   houseId: {type: Number, unique: true},
   photoUrl: String,
@@ -18,15 +18,25 @@ const listingSchema = mongoose.Schema({
   rating: String,
   reviewCount: Number,
   isSaved: Boolean,
+  savedTo: String,
   roomType: String,
   numBeds: Number,
   price: Number
+});
+
+// saved lists schema
+const savedSchema = mongoose.Schema({
+  name: String,
+  photoUrl: String,
+  count: Number,
+  time: String
 });
 
 // add schema plugin for random documents
 listingSchema.plugin(random);
 
 const Listing = mongoose.model('Listing', listingSchema);
+const SavedLists = mongoose.model('SavedLists', savedSchema);
 
 const getListings = (callback) => {
   // given an array of houseIds, query into the collection and return the 12 documents
@@ -41,4 +51,5 @@ const getListings = (callback) => {
 };
 
 module.exports.Listing = Listing;
+module.exports.SavedLists = SavedLists;
 module.exports.getListings = getListings;

@@ -2,7 +2,7 @@
 import React from 'react';
 import $ from 'jquery';
 import styled from 'styled-components';
-import SaveModal from './Modal.jsx';
+import PopupModal from './Modal.jsx';
 import { Card, Frame, TopFrame, Host, NoHost, HostText, Image, Rating, Star, RoomDescription, ReviewCount, Text, Price } from '../styling.jsx';
 import Modal, { ModalProvider, BaseModalBackground } from 'styled-react-modal';
 
@@ -36,7 +36,9 @@ class ListingEntry extends React.Component {
                   <NoHost>
                   </NoHost>
                 }
-                <SaveModal />
+
+                <PopupModal listing={this.props.listing.houseId} photoUrl={this.props.listing.photoUrl} saved={this.props.listing.isSaved} savedTo={this.props.listing.savedTo} update={this.props.update} collections={this.props.collections} />
+
               </TopFrame>
             </Frame>
             <Rating>

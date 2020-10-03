@@ -1,11 +1,11 @@
 import styled from 'styled-components';
+import { device } from './media.jsx';
 
 export const Container = styled.div`
   font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
   margin-top: 10%;
   padding: 48px 80px;
   max-width: 1120px;
-  width: 100%;
   margin-left: auto;
   margin-right: auto;
   background-color: rgb(247, 247, 247);
@@ -91,17 +91,33 @@ export const Entry = styled.div`
 
 export const Card = styled.li`
   border-width: 0px 10px;
-  max-width: 23.2%;
-  flex: 0 0 25%;
   border-style: solid;
   border-color: transparent;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+
+  // Adjust based on screen width
+  @media ${device.laptopL} {
+    max-width: 23.2%;
+    flex: 0 0 25%;
+  }
+  @media ${device.laptopM} {
+    max-width: 31.3%;
+    flex: 0 0 32%;
+  }
+  @media ${device.laptopS} {
+    max-width: 40%;
+    flex: 0 0 40%;
+  }
+  @media ${device.laptopXS} {
+    max-width: 66%;
+    flex: 0 0 66%;
+  }
 `;
 
 export const Frame = styled.div`
   margin-bottom: 10px;
-  max-width: 265px;
+  max-width: 100%;
   max-height: 173px;
   display: block;
   contain: content;
@@ -167,9 +183,16 @@ export const HeartButton = styled.button`
 `;
 
 export const Image = styled.img`
-  object-fit: fill;
+  object-fit: cover;
   width: 100%;
-  height: 173px;
+  height: 30vh;
+  bottom: 10px;
+  position: relative;
+
+  // Adjust based on screen height
+  @media ${'(max-height: 600px)'} {
+    height: 100% !important;
+  }
 `;
 
 export const Rating = styled.div`
@@ -205,4 +228,114 @@ export const Text = styled.span`
 
 export const Price = styled.span`
   font-weight: 600;
+`;
+
+// MODAL STYLING
+
+export const ModalHeader = styled.header`
+  display: flex;
+  position: absolute;
+  top: 0;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 64px;
+  border-bottom: 1px solid rgb(235, 235, 235);
+`;
+
+export const ModalFooter = styled.footer`
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  padding: 5px 0px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 64px;
+  border-top: 1px solid rgb(235, 235, 235);
+`;
+
+export const ModalButton = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  z-index: 10;
+`;
+
+export const CloseButton = styled.button`
+  padding: 4px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  color: rgb(34,34,34);
+  cursor: pointer;
+  position: relative;
+  background: transparent;
+
+  :hover {
+    border: none;
+    background: rgb(247, 247, 247);
+  }
+
+  :active {
+    transform: scale(0.92) !important;
+  }
+`;
+
+export const ModalText = styled.h1`
+  font-size: 1em;
+  margin: 0px;
+  padding: 0px;
+`;
+
+export const CreateButton = styled.button`
+  cursor: pointer;
+  width: 90%;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  background: transparent;
+  margin: 0px;
+  text-decoration: underline;
+  transition: box-shadow 0.2s ease 0s;
+
+  :hover {
+    border: none;
+    background: rgb(247, 247, 247);
+  }
+
+  :active {
+    transform: scale(0.96) !important;
+  }
+`;
+
+export const SubmitButton = styled.button`
+  cursor: pointer;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  outline: none;
+  padding: 14px 24px;
+  border: none;
+  background: rgb(34, 34, 34);
+  color: rgb(255, 255, 255);
+  width: 90%;
+
+  :active {
+    transform: scale(0.96);
+  }
+
+  :disabled {
+    cursor: not-allowed !important;
+    opacity: 1 !important;
+    background: rgb(221, 221, 221) !important;
+    color: rgb(255, 255, 255) !important;
+  }
 `;
