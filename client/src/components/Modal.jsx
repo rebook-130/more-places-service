@@ -97,23 +97,6 @@ class ListingModal extends React.Component {
         });
       }
     });
-    // unsaves/updates database based on heart clicking
-    // $.ajax({
-    //   method: 'PATCH',
-    //   url: '/api/update_collection',
-    //   data: {
-    //     houseId: this.props.listing,
-    //     name: this.props.savedTo,
-    //     isSaved: false
-    //   },
-    //   success: () => {
-    //     this.setState({
-    //       saved: false,
-    //     });
-    //     // update component list
-    //     this.props.update();
-    //   }
-    // });
   }
 
   handleFormUpdate() {
