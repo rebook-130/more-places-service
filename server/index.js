@@ -21,7 +21,7 @@ app.get('/api/more_places', (req, res) => {
 });
 
 app.get('/api/saved_lists', (req, res) => {
-  // get all lists that have been created
+  // get all lists that have been created from saved DB
   db.SavedLists.find({}, 'name photoUrl count time', (err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');
@@ -99,7 +99,7 @@ app.patch('/api/update_collection', (req, res) => {
 });
 
 app.get('/api/collection_name', (req, res) => {
-  // get all lists that have been created
+  // get specific collection by houseId
   db.Listing.find({houseId: req.query.houseId}, 'savedTo', (err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');

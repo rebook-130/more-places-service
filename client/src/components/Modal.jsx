@@ -71,7 +71,7 @@ class ListingModal extends React.Component {
   }
 
   handleUnsave() {
-    // ajax get request to get the name by id?
+    // ajax get request to get the name by id
     $.ajax({
       method: 'GET',
       url: '/api/collection_name',
