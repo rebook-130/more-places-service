@@ -73,12 +73,10 @@ class App extends React.Component {
 
   // updates collections in modal on changes
   update() {
-    console.log('Fcn Called');
     $.ajax({
       method: 'GET',
       url: '/api/saved_lists',
       success: (data) => {
-        console.log('Updating collections');
         this.setState({
           collections: data
         });
