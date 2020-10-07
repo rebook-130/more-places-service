@@ -3,7 +3,6 @@ import { device } from './media.jsx';
 
 export const Container = styled.div`
   font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
-  margin-top: 10%;
   padding: 48px 80px;
   max-width: 1120px;
   margin-left: auto;
