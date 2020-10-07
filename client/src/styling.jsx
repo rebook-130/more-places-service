@@ -75,7 +75,6 @@ export const Next = styled(Button)`
 
 export const List = styled.ul`
   display: flex;
-  height: 100%;
   list-style: none;
   overflow: auto hidden;
   padding-left: 0px;
