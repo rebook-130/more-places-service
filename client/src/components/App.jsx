@@ -40,13 +40,13 @@ class App extends React.Component {
     let newPage;
     if (this.state.page === 3) {
       newPage = 1;
-      this.state.refs[0].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+      this.state.refs[0].current.scrollIntoView({ behavior: 'smooth', block: 'nearest'});
     } else if (this.state.page === 2) {
       newPage = 3;
-      this.state.refs[11].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+      this.state.refs[11].current.scrollIntoView({ behavior: 'smooth', block: 'nearest'});
     } else {
       newPage = 2;
-      this.state.refs[7].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+      this.state.refs[7].current.scrollIntoView({ behavior: 'smooth', block: 'nearest'});
     }
     this.setState({
       page: newPage
@@ -58,13 +58,13 @@ class App extends React.Component {
     let newPage;
     if (this.state.page === 3) {
       newPage = 2;
-      this.state.refs[4].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+      this.state.refs[4].current.scrollIntoView({ behavior: 'smooth', block: 'nearest'});
     } else if (this.state.page === 2) {
       newPage = 1;
-      this.state.refs[0].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+      this.state.refs[0].current.scrollIntoView({ behavior: 'smooth', block: 'nearest'});
     } else {
       newPage = 3;
-      this.state.refs[11].current.scrollIntoView({ behavior: 'smooth', block: 'start'});
+      this.state.refs[11].current.scrollIntoView({ behavior: 'smooth', block: 'nearest'});
     }
     this.setState({
       page: newPage
