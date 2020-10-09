@@ -18,4 +18,4 @@ RUN npm build
 EXPOSE 3004
 
 # How do you start your app?
-CMD ["sh", "-c", "sleep 60; npm run start"]
+CMD ["sh", "-c", "sleep 40; npm run start"]
