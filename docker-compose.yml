@@ -7,7 +7,7 @@ services:
     depends_on:
       - 'database'
     ports:
-      - '1000:3004'
+      - '3004:3004'
 
   database:
     image: mongo:latest
