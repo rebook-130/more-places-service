@@ -2,7 +2,7 @@ version: '3'
 
 services:
   proxy:
-    build: ../proxy
+    build: ../more-places-proxy
     ports:
       - '3000:3000'
   more_places:
