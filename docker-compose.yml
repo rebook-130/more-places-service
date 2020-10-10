@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  more_places:
+    build: .
+    container_name: 'more_places'
+    depends_on:
+      - 'database'
+    ports:
+      - '3004:3004'
+
+  database:
+    image: mongo:latest
+    container_name: 'mongodb'
+    volumes:
+      - ./data:/data/db
