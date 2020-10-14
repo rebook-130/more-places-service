@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const db = require('./database/index.js');
+const control = require('./database/index.js')
 
 
 router.get('/api/more_places', (req, res) => {
@@ -106,20 +107,10 @@ router.get('/api/collection_name', (req, res) => {
   });
 });
 
-router.delete('/api/remove_collection', (req, res) => {
-  // removes one saved collection by name
-  db.savedLists.deleteOne({name: req.query.name}, (err, data) => {
-    if (err) {
-      res.status(500).send('Failed to delete record');
-    } else {
-      res.status(204).send('deleted ' + req.query.name);
-    }
-  })
-})
 
-router.delete('/api/prune_collection', (req, res) => {
-  // removes one saved collection by name
-  db.pruneLists((err, data) => {
+router.delete('/api/remove_collection', (req, res) => {
+  // removes all collections saved collection by name
+  db.removeLists((err, data) => {
     if (err) {
       res.status(500).send('Failed to delete records');
     } else {
@@ -141,16 +132,5 @@ router.get('/api/testLists', (req, res) => {
     }
   })
 })
-
-// router.delete('/api/remove_collection', (req, res) => {
-//   // removes all collections (start from scratch)
-//   db.savedLists.deleteOne({houseId: req.query.houseId}, (err, data) => {
-//     if (err) {
-//       res.status(500).send('Failed to delete record');
-//     } else {
-//       res.status(200).send(data);
-//     }
-//   })
-// })
 
 module.exports = router

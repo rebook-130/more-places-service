@@ -60,13 +60,20 @@ const getLists = (callback) => {
   })
 }
 
-const pruneLists = (callback) => {
-  SavedLists.deleteMany({count: 1}, callback);
+const removeLists = (callback) => {
+  SavedLists.deleteMany({}, (err, data) => {
+    callback(err, data);
+  });
+}
+
+const revertSaved = (callback) => {
+  Listing.updateMany({isSaved: true}, { $set: {isSaved: false} }, {}, callback);
 }
 
 module.exports.Listing = Listing;
 module.exports.SavedLists = SavedLists;
 module.exports.getListings = getListings;
 module.exports.getLists = getLists;
-module.exports.pruneLists = pruneLists;
-
+module.exports.removeLists = removeLists;
+module.exports.revertSaved = revertSaved;
+module.exports.db = db
