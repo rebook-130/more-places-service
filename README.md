@@ -5,10 +5,7 @@
 
 ## Related Projects
 
-  - https://github.com/Bookable/photo-gallery-service
-  - https://github.com/Bookable/calendar-service
-  - https://github.com/Bookable/more-places-service
-  - https://github.com/Bookable/review-service
+tbd
 
 ## Table of Contents
 
@@ -18,7 +15,14 @@
 
 ## Usage
 
-> Some usage instructions
+> Some usage instructions for init app launch
+  1. run `npm install` from root dir to resolve dependencies
+  2. inspect /server/database/index.js for mongo address. ensure this is mapped to your correct db server location env.
+  3. to seed db, run `npm run seed`
+  4. to launch app on localhost with node run `npm start`
+  5. app should render in localhost
+
+> Additional commands detailed below
 
 ## Requirements
 
@@ -32,7 +36,7 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 
 From within the root directory:
 ```sh
-npm
+npm install
 ```
 
 To seed the database
@@ -60,6 +64,8 @@ npm test
 From within the root directory:
 
 ```sh
+npm install
+
 npm install -g webpack
 npm install faker styled-react-modal styled-components
 ```
