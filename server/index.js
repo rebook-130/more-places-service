@@ -110,6 +110,16 @@ app.get('/api/collection_name', (req, res) => {
   });
 });
 
+app.delete('/api/remove_collection', (req, res) => {
+  db.Listing.deleteOne({houseId: req.query.houseId}, (err, data) => {
+    if (err) {
+      res.status(500).send('Failed to delete record');
+    } else {
+      res.status(200).send(data);
+    }
+  })
+})
+
 app.listen(port, () => {
   console.log(`FEC app listening at http://localhost:${port}`);
 });
