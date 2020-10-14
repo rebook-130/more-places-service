@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const random = require('mongoose-simple-random');
 
 // connect to listings db
-mongoose.connect('mongodb://localhost/listings', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/listings', {useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error Connecting'));
 db.once('open', () => console.log('Connected to Listings DB'));

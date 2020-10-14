@@ -33,6 +33,7 @@ app.get('/api/saved_lists', (req, res) => {
 
 app.post('/api/create_list', (req, res) => {
   // insert a new list into the saved DB
+  console.log(req.body.name)
   var data = {
     name: req.body.name,
     photoUrl: req.body.photoUrl,
@@ -111,7 +112,8 @@ app.get('/api/collection_name', (req, res) => {
 });
 
 app.delete('/api/remove_collection', (req, res) => {
-  db.Listing.deleteOne({houseId: req.query.houseId}, (err, data) => {
+  // removes one saved collection by name
+  db.savedLists.deleteOne({name: req.query.name}, (err, data) => {
     if (err) {
       res.status(500).send('Failed to delete record');
     } else {
@@ -119,6 +121,17 @@ app.delete('/api/remove_collection', (req, res) => {
     }
   })
 })
+
+app.delete('/api/remove_collection', (req, res) => {
+  db.savedLists.deleteOne({houseId: req.query.houseId}, (err, data) => {
+    if (err) {
+      res.status(500).send('Failed to delete record');
+    } else {
+      res.status(200).send(data);
+    }
+  })
+})
+
 
 app.listen(port, () => {
   console.log(`FEC app listening at http://localhost:${port}`);
