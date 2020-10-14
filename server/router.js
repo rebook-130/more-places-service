@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const db = require('./database/index.js');
-const control = require('./database/index.js')
+const db = require('./database/index');
+const control = require('./database/control')
 
 
 router.get('/api/more_places', (req, res) => {
   // get 12 random listings from listings DB
-  db.getListings((err, data) => {
+  control.getListings((err, data) => {
     if (err) {
       res.status(400).send('Failed to get listings');
     } else {
@@ -17,11 +17,10 @@ router.get('/api/more_places', (req, res) => {
 
 router.get('/api/saved_lists', (req, res) => {
   // get all lists that have been created from saved DB
-  db.SavedLists.find({}, 'name photoUrl count time', (err, data) => {
+  control.getLists((err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
-      console.log(data)
       res.status(200).send(data);
     }
   });
@@ -29,14 +28,13 @@ router.get('/api/saved_lists', (req, res) => {
 
 router.post('/api/create_list', (req, res) => {
   // insert a new list into the saved DB
-  console.log(req.body.name)
   var data = {
     name: req.body.name,
     photoUrl: req.body.photoUrl,
     count: 1,
     time: 'Any time'
   };
-  db.SavedLists.create(data, (err) => {
+  control.createList(data, (err) => {
     if (err) {
       res.status(400).send('Failed to create list');
     } else {
@@ -60,38 +58,42 @@ router.patch('/api/update_listing', (req, res) => {
 
 router.patch('/api/update_collection', (req, res) => {
   // update the saved props of a listing and count of collection when clicked
+  var update = { savedTo: req.body.name, isSaved: req.body.isSaved };
+  var houseId = req.body.houseId;
+  var name = req.body.name;
+  var cb = (err) => {
+    if (err) {
+      res.status(500).send('Failed to update collection');
+    } else {
+      res.status(202).send('Updated listing & collection');
+    }
+  };
+
   if (req.body.isSaved === 'true') {
-    var update = { savedTo: req.body.name, isSaved: req.body.isSaved};
     // if saving, increment count and update save props of listing to true
-    db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
-      if (err) {
-        res.status(500).send('Failed to update listing');
-      } else {
-        db.SavedLists.findOneAndUpdate({name: req.body.name}, { '$inc': {count: 1}}).exec((err) => {
-          if (err) {
-            res.status(500).send('Failed to update collection');
-          } else {
-            res.status(202).send('Updated listing & collection');
-          }
-        });
-      }
-    });
+    // db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
+    //   if (err) {
+    //     res.status(500).send('Failed to update listing');
+    //   } else {
+    //     db.SavedLists.findOneAndUpdate({name: req.body.name}, { '$inc': {count: 1}}).exec(
+    control.saveToList({ update, houseId, name }, cb);
   } else {
-    var update = { isSaved: req.body.isSaved};
     // else, decrement count and change save to false
-    db.SavedLists.findOneAndUpdate({name: req.body.name}, { '$inc': {count: -1}}).exec((err) => {
-      if (err) {
-        res.status(500).send('Failed to update listing');
-      } else {
-        db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
-          if (err) {
-            res.status(500).send('Failed to update collection');
-          } else {
-            res.status(202).send('Updated listing & collection');
-          }
-        });
-      }
-    });
+    control.removeFromList({ update, houseId, name }, cb);
+
+    // db.SavedLists.findOneAndUpdate({name: req.body.name}, { '$inc': {count: -1}}).exec((err) => {
+    //   if (err) {
+    //     res.status(500).send('Failed to update listing');
+    //   } else {
+    //     db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
+    //       if (err) {
+    //         res.status(500).send('Failed to update collection');
+    //       } else {
+    //         res.status(202).send('Updated listing & collection');
+    //       }
+    //     });
+    //   }
+    // });
   }
 });
 
@@ -107,10 +109,9 @@ router.get('/api/collection_name', (req, res) => {
   });
 });
 
-
 router.delete('/api/remove_collection', (req, res) => {
   // removes all collections saved collection by name
-  db.removeLists((err, data) => {
+  control.removeAllLists((err, data) => {
     if (err) {
       res.status(500).send('Failed to delete records');
     } else {
@@ -121,16 +122,16 @@ router.delete('/api/remove_collection', (req, res) => {
 })
 
 
-router.get('/api/testLists', (req, res) => {
-  db.getLists((err, data) => {
-    if (err) {
-      console.log(err);
-      res.send(400);
-    } else {
-      console.log(data);
-      res.status(200).send(data);
-    }
-  })
-})
+// router.get('/api/testLists', (req, res) => {
+//   db.getLists((err, data) => {
+//     if (err) {
+//       console.log(err);
+//       res.send(400);
+//     } else {
+//       console.log(data);
+//       res.status(200).send(data);
+//     }
+//   })
+// })
 
 module.exports = router
