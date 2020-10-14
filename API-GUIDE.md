@@ -1,5 +1,7 @@
 ## Server API --- sample data
 
+
+
 ### 12 random listings
   * GET `/api/more_places`
 
@@ -56,6 +58,7 @@
 ```
 
 
+
 ### Get specific collection by houseId
   * `/api/collection_name`
 
@@ -90,6 +93,7 @@
 ```
 
 
+
 ### update the saved props of a listing when created
   * PATCH `/api/update_listing`
 
@@ -106,6 +110,7 @@
       "name": "String"
     }
 ```
+
 
 
 ### update the saved props of a listing and count of collection when clicked
@@ -128,12 +133,11 @@
 
 
 
-
-### Delete restaurant
-  * DELETE `/api/restaurant/:id`
+### Delete one collection by name
+  * DELETE `/api/remove_collection`
 
 **Path Parameters:**
-  * `id` restaurant id
+  * query `/?name=String`
 
 **Success Status Code:** `204`
 

@@ -50,6 +50,23 @@ const getListings = (callback) => {
   });
 };
 
+const getLists = (callback) => {
+  SavedLists.find({}, function(err, results) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, results)
+    }
+  })
+}
+
+const pruneLists = (callback) => {
+  SavedLists.deleteMany({count: 1}, callback);
+}
+
 module.exports.Listing = Listing;
 module.exports.SavedLists = SavedLists;
 module.exports.getListings = getListings;
+module.exports.getLists = getLists;
+module.exports.pruneLists = pruneLists;
+

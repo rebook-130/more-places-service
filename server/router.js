@@ -20,6 +20,7 @@ router.get('/api/saved_lists', (req, res) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
+      console.log(data)
       res.status(200).send(data);
     }
   });
@@ -95,7 +96,7 @@ router.patch('/api/update_collection', (req, res) => {
 
 router.get('/api/collection_name', (req, res) => {
   // get specific collection by houseId
-  db.Listing.find({houseId: req.query.houseId}, 'savedTo', (err, data) => {
+  db.SavedLists.find({houseId: req.query.houseId}, 'savedTo', (err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
@@ -111,19 +112,45 @@ router.delete('/api/remove_collection', (req, res) => {
     if (err) {
       res.status(500).send('Failed to delete record');
     } else {
+      res.status(204).send('deleted ' + req.query.name);
+    }
+  })
+})
+
+router.delete('/api/prune_collection', (req, res) => {
+  // removes one saved collection by name
+  db.pruneLists((err, data) => {
+    if (err) {
+      res.status(500).send('Failed to delete records');
+    } else {
+      console.log(data)
+      res.status(204).send('deleted ' + data.deletedCount);
+    }
+  })
+})
+
+
+router.get('/api/testLists', (req, res) => {
+  db.getLists((err, data) => {
+    if (err) {
+      console.log(err);
+      res.send(400);
+    } else {
+      console.log(data);
       res.status(200).send(data);
     }
   })
 })
 
-router.delete('/api/remove_collection', (req, res) => {
-  db.savedLists.deleteOne({houseId: req.query.houseId}, (err, data) => {
-    if (err) {
-      res.status(500).send('Failed to delete record');
-    } else {
-      res.status(200).send(data);
-    }
-  })
-})
+// router.delete('/api/remove_collection', (req, res) => {
+//   // removes all collections (start from scratch)
+//   db.savedLists.deleteOne({houseId: req.query.houseId}, (err, data) => {
+//     if (err) {
+//       res.status(500).send('Failed to delete record');
+//     } else {
+//       res.status(200).send(data);
+//     }
+//   })
+// })
 
 module.exports = router
