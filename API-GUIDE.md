@@ -36,7 +36,7 @@
 
 
 ### Get saved lists
-  * GET `/api/saved_lists`
+  * GET `/api/collections`
 
 **Path parameters:**
   * none (get all)
@@ -79,7 +79,7 @@
 
 
 ### Add list
-  * POST `/api/collection`
+  * POST `/api/collections`
 
 **Success Status Code:** `201`
 
@@ -95,7 +95,7 @@
 
 
 ### update the saved props of a listing and count of collection when clicked
-  * PATCH `/api/collection`
+  * PATCH `/api/collections`
 
 **Path Parameters:**
   * none, uses req.body
@@ -115,7 +115,7 @@
 
 
 ### Delete all collections
-  * DELETE `/api/collection`
+  * DELETE `/api/collections`
 
 **Path Parameters:**
   * query `/?name=String`

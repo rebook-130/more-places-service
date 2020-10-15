@@ -58,7 +58,7 @@ class ListingModal extends React.Component {
     // saves/updates the database based on clicks on existing lists in the modal
     $.ajax({
       method: 'PATCH',
-      url: '/api/collection',
+      url: '/api/collections',
       data: {
         houseId: this.props.listing,
         name: input,
@@ -74,14 +74,14 @@ class ListingModal extends React.Component {
     // ajax get request to get the name by id
     $.ajax({
       method: 'GET',
-      url: '/api/property_collections',
+      url: '/api/property/collections',
       data: {
         houseId: this.props.listing
       },
       success: (data) => {
         $.ajax({
           method: 'PATCH',
-          url: '/api/collection',
+          url: '/api/collections',
           data: {
             houseId: this.props.listing,
             name: data.savedTo,
