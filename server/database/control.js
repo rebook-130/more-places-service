@@ -39,8 +39,14 @@ module.exports = {
         callback(err);
         return;
       } else {
-        db.Listing.findOneAndUpdate({ houseId: req.body.houseId }, { '$set': update }).exec(callback);
+        database.Listing.findOneAndUpdate({ houseId: data.houseId }, { '$set': data.update }).exec(callback);
       }
     })
-  }
+  },
+  getHouseList: (houseId, callback) => {
+    console.log(houseId);
+    database.Listing.find({ houseId }, 'savedTo', callback)
+  },
+
+
 }

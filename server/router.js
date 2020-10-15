@@ -3,7 +3,6 @@ const router = express.Router()
 const db = require('./database/index');
 const control = require('./database/control')
 
-
 router.get('/api/more_places', (req, res) => {
   // get 12 random listings from listings DB
   control.getListings((err, data) => {
@@ -45,9 +44,11 @@ router.post('/api/create_list', (req, res) => {
 
 router.patch('/api/update_listing', (req, res) => {
   // update the saved props of a listing when created
-  var filter = { houseId: req.body.houseId };
+  var houseId = req.body.houseId;
+  var name = req.body.name;
   var update = { savedTo: req.body.name, isSaved: true};
-  db.Listing.findOneAndUpdate(filter, { '$set': update}).exec(function(err) {
+  // db.Listing.findOneAndUpdate(filter, { '$set': update }).exec(
+  control.saveToList({ houseId, update, name }, (err) => {
     if (err) {
       res.status(500).send('Failed to update');
     } else {
@@ -71,38 +72,20 @@ router.patch('/api/update_collection', (req, res) => {
 
   if (req.body.isSaved === 'true') {
     // if saving, increment count and update save props of listing to true
-    // db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
-    //   if (err) {
-    //     res.status(500).send('Failed to update listing');
-    //   } else {
-    //     db.SavedLists.findOneAndUpdate({name: req.body.name}, { '$inc': {count: 1}}).exec(
     control.saveToList({ update, houseId, name }, cb);
   } else {
     // else, decrement count and change save to false
     control.removeFromList({ update, houseId, name }, cb);
-
-    // db.SavedLists.findOneAndUpdate({name: req.body.name}, { '$inc': {count: -1}}).exec((err) => {
-    //   if (err) {
-    //     res.status(500).send('Failed to update listing');
-    //   } else {
-    //     db.Listing.findOneAndUpdate({houseId: req.body.houseId}, { '$set': update}).exec((err) => {
-    //       if (err) {
-    //         res.status(500).send('Failed to update collection');
-    //       } else {
-    //         res.status(202).send('Updated listing & collection');
-    //       }
-    //     });
-    //   }
-    // });
   }
 });
 
 router.get('/api/collection_name', (req, res) => {
   // get specific collection by houseId
-  db.SavedLists.find({houseId: req.query.houseId}, 'savedTo', (err, data) => {
+  control.getHouseList(req.query.houseId, (err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
+      console.log(data);
       result = JSON.parse(JSON.stringify(data));
       res.status(200).send(result[0]);
     }
@@ -115,23 +98,19 @@ router.delete('/api/remove_collection', (req, res) => {
     if (err) {
       res.status(500).send('Failed to delete records');
     } else {
-      console.log(data)
-      res.status(204).send('deleted ' + data.deletedCount);
+      res.status(202).send('deleted ' + data.deletedCount);
     }
   })
 })
 
-
-// router.get('/api/testLists', (req, res) => {
-//   db.getLists((err, data) => {
-//     if (err) {
-//       console.log(err);
-//       res.send(400);
-//     } else {
-//       console.log(data);
-//       res.status(200).send(data);
-//     }
-//   })
-// })
+router.patch('/api/revert_saved', (req, res) => {
+  control.revertSaved((err, data) => {
+    if (err) {
+      res.status(500).send('Failed to revert saved records');
+    } else {
+      res.status(202)
+    }
+  })
+})
 
 module.exports = router
