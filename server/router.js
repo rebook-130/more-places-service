@@ -1,7 +1,8 @@
-const express = require('express')
-const router = express.Router()
-const db = require('./database/index');
-const control = require('./database/control')
+const express = require('express');
+
+const router = express.Router();
+// const db = require('./database/index');
+const control = require('./database/control');
 
 router.get('/api/more_places', (req, res) => {
   // get 12 random listings from listings DB
@@ -27,11 +28,11 @@ router.get('/api/saved_lists', (req, res) => {
 
 router.post('/api/create_list', (req, res) => {
   // insert a new list into the saved DB
-  var data = {
+  const data = {
     name: req.body.name,
     photoUrl: req.body.photoUrl,
     count: 1,
-    time: 'Any time'
+    time: 'Any time',
   };
   control.createList(data, (err) => {
     if (err) {
@@ -44,9 +45,9 @@ router.post('/api/create_list', (req, res) => {
 
 router.patch('/api/update_listing', (req, res) => {
   // update the saved props of a listing when created
-  var houseId = req.body.houseId;
-  var name = req.body.name;
-  var update = { savedTo: req.body.name, isSaved: true};
+  let houseId = req.body.houseId;
+  let name = req.body.name;
+  let update = { savedTo: req.body.name, isSaved: true};
   // db.Listing.findOneAndUpdate(filter, { '$set': update }).exec(
   control.saveToList({ houseId, update, name }, (err) => {
     if (err) {
@@ -59,10 +60,10 @@ router.patch('/api/update_listing', (req, res) => {
 
 router.patch('/api/update_collection', (req, res) => {
   // update the saved props of a listing and count of collection when clicked
-  var update = { savedTo: req.body.name, isSaved: req.body.isSaved };
-  var houseId = req.body.houseId;
-  var name = req.body.name;
-  var cb = (err) => {
+  const update = { savedTo: req.body.name, isSaved: req.body.isSaved };
+  const houseId = req.body.houseId;
+  const name = req.body.name;
+  const cb = (err) => {
     if (err) {
       res.status(500).send('Failed to update collection');
     } else {
@@ -85,8 +86,7 @@ router.get('/api/collection_name', (req, res) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
-      console.log(data);
-      result = JSON.parse(JSON.stringify(data));
+      const result = JSON.parse(JSON.stringify(data));
       res.status(200).send(result[0]);
     }
   });
@@ -98,19 +98,19 @@ router.delete('/api/remove_collection', (req, res) => {
     if (err) {
       res.status(500).send('Failed to delete records');
     } else {
-      res.status(202).send('deleted ' + data.deletedCount);
+      res.status(202).send('deleted ', data.deletedCount);
     }
-  })
-})
+  });
+});
 
 router.patch('/api/revert_saved', (req, res) => {
   control.revertSaved((err, data) => {
     if (err) {
       res.status(500).send('Failed to revert saved records');
     } else {
-      res.status(202)
+      res.status(202);
     }
-  })
-})
+  });
+});
 
-module.exports = router
+module.exports = router;
