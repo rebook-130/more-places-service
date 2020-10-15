@@ -109,7 +109,7 @@ class FormModal extends React.Component {
     // send ajax post req to server to insert into saved lists
     $.ajax({
       method: 'POST',
-      url: '/api/create_list',
+      url: '/api/collection',
       data: {
         name: this.state.value,
         photoUrl: `https://source.unsplash.com/480x480/?home&sig=${Math.random()}`
@@ -118,7 +118,7 @@ class FormModal extends React.Component {
     // send ajax patch req to server to update isSaved/savedto
     $.ajax({
       method: 'PATCH',
-      url: '/api/update_listing',
+      url: '/api/saved_listing',
       data: {
         name: this.state.value,
         houseId: this.props.listing

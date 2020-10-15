@@ -60,7 +60,7 @@
 
 
 ### Get specific collection by houseId
-  * `/api/collection_name`
+  * GET `/api/property_collections`
 
 **Path parameters:**
   * query `/hcho1?houseId=1`
@@ -79,7 +79,7 @@
 
 
 ### Add list
-  * POST `/api/create_list`
+  * POST `/api/collection`
 
 **Success Status Code:** `201`
 
@@ -94,27 +94,8 @@
 
 
 
-### update the saved props of a listing when created
-  * PATCH `/api/update_listing`
-
-**Path Parameters:**
-  * none, uses req.body
-
-**Success Status Code:** `202`
-
-**Request Body**: Expects JSON with the following keys.
-
-```json
-    {
-      "houseId": "String",
-      "name": "String"
-    }
-```
-
-
-
 ### update the saved props of a listing and count of collection when clicked
-  * PATCH `/api/update_collection`
+  * PATCH `/api/collection`
 
 **Path Parameters:**
   * none, uses req.body
@@ -134,9 +115,29 @@
 
 
 ### Delete all collections
-  * DELETE `/api/remove_collection`
+  * DELETE `/api/collection`
 
 **Path Parameters:**
   * query `/?name=String`
 
 **Success Status Code:** `204`
+
+
+
+### DEPRECATED - update the saved props of a listing when created
+  * PATCH `/api/saved_listing`
+
+**Path Parameters:**
+  * none, uses req.body
+
+
+**Success Status Code:** `202`
+
+**Request Body**: Expects JSON with the following keys.
+
+```json
+    {
+      "houseId": "String",
+      "name": "String"
+    }
+```
