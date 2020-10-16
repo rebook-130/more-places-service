@@ -4,16 +4,20 @@ CREATE KEYSPACE IF NOT EXISTS more_places
 USE more_places;
 
 
+-- query first table schemas
+-- to get 12 random properties query properties by listing id and get listing data
 CREATE TABLE IF NOT EXISTS properties_by_id (
-  listing_id bigint (PRIMARY KEY),
+  listing_id bigint,
   photoURL text,
   descrip text,
   rating float,
   review_count int,
   beds smallint,
   price float,
-)
+  PRIMARY KEY (listing_id)
+);
 
+-- to get user collections or add a user's collection, query collections by user
 CREATE TABLE IF NOT EXISTS collections_by_id (
   user_id bigint,
   collection_name text,
@@ -21,45 +25,12 @@ CREATE TABLE IF NOT EXISTS collections_by_id (
   property_count int,
   photo_url text,
   PRIMARY KEY(user_id, collection_id)
-)
+);
 
+-- to get a property's specific collection, query collections by property
 CREATE TABLE IF NOT EXISTS collections_by_property (
   user_id bigint,
   property_id bigint,
   collection_name text,
   PRIMARY KEY(user_id, property_id)
-)
-
-
-
-
-
-properties: {
-  {
-    "listing22834597": {
-      "photoUrl": "http://aws.image.com"
-      "descrip": "stay at a place",
-      "superhost": true,
-      "rating": 4.7,
-      "review_count": 39,
-      "room_type": "entire home",
-      "beds": 3,
-      "price": 98,
-      "savedByUsers": [
-        "1264935756954": [
-          "mylist"
-        ],
-      ]
-    }
-  }
-}
-
-collections: {
-  "1264935756954:mylist": {
-    "saved_properties": [
-      "listing22834597",
-    ],
-    "name": "mylist",
-    "photoUrl": "http://aws.image.com"
-  }
-}
+);
