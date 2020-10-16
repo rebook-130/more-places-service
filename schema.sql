@@ -1,4 +1,4 @@
-
+--
 
 CREATE TABLE users(
   id BIGINT NOT NULL UNIQUE,
@@ -27,6 +27,16 @@ CREATE TABLE saved_prop(
 
 )
 
-CREATE TABLE propertoes(
-  id BIGINT NOT NULL UNIQUE
+CREATE TABLE properties(
+  id BIGINT NOT NULL UNIQUE,
+  photo_url VARCHAR(300),
+  descrip VARCHAR(300),
+  superhost INT,
+  rating FLOAT,
+  review_count INT,
+  room_type VARCHAR(50),
+  beds INT,
+  price FLOAT,
+  PRIMARY KEY (id)
 )
+
