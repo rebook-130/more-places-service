@@ -14,10 +14,10 @@ const partition_ids = [111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 12
 // const description = ['Central Location!', 'Comfy and Quaint!', 'Very quiet neighborhood', '100% Private!', 'Ultra Luxury Room', '420 Friendly Stay!', 'Cozy and Comfortable', 'Wake up to spectacular views', 'Panoramic Views', 'Spacious', 'Exquisite and Close to everything!', 'Stunning Views', 'Lovers Paradise', 'Minimalist Dream', 'Beautiful Midcentury Oasis', 'Contemporary Dream', 'Earthy Modernist Home', 'Large Private Area'];
 
 const template = {
-  adjective: ['Central', 'Very quiet', '100% Private', 'Exquisite', '420 Friendly', 'Earthy', 'Cozy', 'Comfortable', 'Stunning', 'Minimalist', 'Beautiful', 'Modernist', 'Private', 'Sunny', 'Shady', 'Exciting', 'Lively', 'Centrally Located', 'Colorful', 'Inexpensive', 'Pet-friendly', 'Scenic', 'Desert', 'Haunted'],
+  adjective: ['Central', 'Very quiet', '100% Private', 'Exquisite', '420 Friendly', 'Earthy', 'Cozy', 'Comfortable', 'Stunning', 'Minimalist', 'Beautiful', 'Modernist', 'Private', 'Sunny', 'Shady', 'Exciting', 'Lively', 'Centrally Located', 'Colorful', 'Inexpensive', 'Pet-friendly', 'Scenic', 'Desert', 'Haunted', 'Spooky', 'Crooked', 'Gigantic'],
   place: ['Location', 'Room', 'Views', 'Dream', 'Oasis', 'Area', 'House', 'Stay', 'Home', 'Condo', 'Condominum', 'Getaway', 'Apartment', 'Mansion', 'Flat', 'Cabin', 'little slice of heaven'],
   attributes1: ['Pool', 'Garden', 'Balcony', 'Yard', 'kitchen'],
-  attributes2: [' in the woods', ' in space', ' in heaven', ' in city', ' in vibrant neighborhood'],
+  attributes2: ['in the woods', 'in space', 'in heaven', 'in city', 'in vibrant neighborhood'],
   punctuation: ['!', '', '', '', ''],
 };
 
@@ -43,7 +43,7 @@ const location = ['San Diego', 'Malibu', 'Los Angeles', 'Big Bear Lake', 'Joshua
 
 const randomDescription = () => {
   let adjIndex1 = template.adjective[Math.floor(Math.random() * template.adjective.length)];
-  if (!Math.round(2 * Math.random())) {
+  if (!Math.round(4 * Math.random())) {
     adjIndex1 = adjIndex1.toUpperCase();
   }
   const placeIndex = template.place[Math.floor(Math.random() * template.place.length)];
@@ -54,14 +54,14 @@ const randomDescription = () => {
   let propAttrib = '';
 
   if (!Math.round(Math.random())) {
-    adj = `with ${adjIndex2} ${attribIndex} `;
+    adj = ` with ${adjIndex2} ${attribIndex} `;
   }
   if (Math.round(Math.random() * 3)) {
     propAttrib = template.attributes2[Math.floor(Math.random() * template.attributes2.length)];
   }
-  string = `${adjIndex1} ${placeIndex} ${adj}${attribIndex}${propAttrib}${puncIndex}`;
+  let string = `${adjIndex1} ${placeIndex}${adj}${propAttrib}${puncIndex}`;
 
-  if (!Math.round(8 * Math.random())) {
+  if (!Math.round(10 * Math.random())) {
     string = string.toUpperCase();
   }
   return string;
