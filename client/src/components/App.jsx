@@ -75,7 +75,7 @@ class App extends React.Component {
   update() {
     $.ajax({
       method: 'GET',
-      url: '/api/saved_lists',
+      url: '/api/collections',
       success: (data) => {
         this.setState({
           collections: data
