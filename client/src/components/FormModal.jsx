@@ -118,7 +118,7 @@ class FormModal extends React.Component {
     // send ajax patch req to server to update isSaved/savedto
     $.ajax({
       method: 'PATCH',
-      url: '/api/saved_listings',
+      url: '/api/collections',
       data: {
         name: this.state.value,
         houseId: this.props.listing

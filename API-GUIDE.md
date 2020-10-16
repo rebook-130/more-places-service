@@ -60,7 +60,7 @@
 
 
 ### Get specific collection by houseId
-  * GET `/api/property_collections`
+  * GET `/api/properties/collections`
 
 **Path parameters:**
   * query `/hcho1?houseId=1`
