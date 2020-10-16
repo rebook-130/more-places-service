@@ -6,6 +6,10 @@ USE more_places;
 -- query first table schemas
 -- to get 12 random properties query properties by listing id and get listing data
 -- when seeding, require 10M records. if we distribute 20 partition ids, this may optimize the querying. It may be trial and error.
+
+  -- GET /api/more_places
+    --> getListings: mongo.Listing.findRandom({}, {}, { limit: 12 }, callback)
+
 CREATE TABLE IF NOT EXISTS properties_by_id (
   partition_id int,
   listing_id bigint,
@@ -19,38 +23,51 @@ CREATE TABLE IF NOT EXISTS properties_by_id (
 );
 
 
-
-
 -- to get user collections or add a user's collection, query collections by user
+
+  -- GET /api/collections
+    --> getLists: mongo.SavedLists.find({}, 'name photoUrl count time', callback)
+  -- **PATCH /api/collections
+    --> addToList: database.SavedLists.findOneAndUpdate({ name: data.name }, { $inc: { count: 1 } },).exec(callback))
+    --> removeFromList: database.SavedLists.findOneAndUpdate({ name: data.name }, { $inc: { count: -1 } }).exec(callback))
+  -- POST /api/collections
+    --> createList: mongo.SavedLists.create(data, callback)
+  -- DELETE /api/collections
+    --> removeAllLists: mongo.SavedLists.deleteMany({})
+
 CREATE TABLE IF NOT EXISTS collections_by_id (
   user_id bigint,
   collection_name text,
   saved_property text,
-  property_count int,
+  property_count int, -- needs to be incremented for each row in the collection name
   photo_url text,
   PRIMARY KEY(user_id, collection_id)
 );
 
--- to get a property's specific collection, query collections by property
--- CREATE TABLE IF NOT EXISTS collections_by_property (
+-- to quickly ascertain the count properties in each  collection
+-- CREATE TABLE IF NOT EXISTS counts_by_user_collection (
 --   user_id bigint,
---   property_id bigint,
 --   collection_name text,
---   PRIMARY KEY(user_id, property_id)
+--   property_count int,
+--   PRIMARY KEY (user_id, collection_name)
 -- );
 
--- OR --
+
 
 -- to get a property's collection (would need write and remove each time a listing is added )
-CREATE TABLE IF NOT EXISTS properties_by_id (
+
+  -- GET /api/properties/collection --> mongo.Listing.find({ houseId }, 'savedTo', callback)
+  -- **PATCH api/collections
+    --> addToList: mongo.Listing.findOneAndUpdate({ houseId: data.houseId }, { $set: data.update }).exec(callback)
+    --> removeFromList: database.Listing.findOneAndUpdate({ houseId: data.houseId }, { $set: data.update },).exec(callback)
+
+CREATE TABLE IF NOT EXISTS collections_by_properties_id (
   partition_id int,
   listing_id bigint,
   user_id bigint,
   collection_name,
   PRIMARY KEY (partition_id, listing_id)
 );
-
-
 
 
 
