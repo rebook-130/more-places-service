@@ -2,7 +2,6 @@ CREATE DATABASE IF NOT EXISTS sdc-more-places;
 
 USE sdc-more-places;
 
-
 -- table for user accounts (each account has many collections)
 CREATE TABLE IF NOT EXISTS users(
   id BIGINT NOT NULL UNIQUE,
@@ -14,13 +13,13 @@ CREATE TABLE IF NOT EXISTS users(
 CREATE TABLE IF NOT EXISTS collections(
   id BIGINT NOT NULL UNIQUE,
   name VARCHAR(40) NOT NULL,
-  count INT NOT NULL,
+  count INT NOT NULL, -- calculated field
   user_id BIGINT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 )
 
--- each saved property is subortinated to a user an a collection. can have the same property in multiple collections here
+-- each saved property is subortinated to a user an a collection. can have the same property in multiple collections here.
 CREATE TABLE IF NOT EXISTS saved_prop(
   id BIGINT NOT NULL UNIQUE,
   PRIMARY KEY (id),
