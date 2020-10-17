@@ -4,7 +4,7 @@ const router = express.Router();
 // const db = require('./database/index');
 const control = require('./database/control');
 
-router.get('/api/more_places', (req, res) => {
+router.get('/api/listing/:id/moreplaces', (req, res) => {
   // get 12 random listings from listings DB
   control.getListings((err, data) => {
     if (err) {
