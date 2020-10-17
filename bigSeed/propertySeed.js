@@ -50,7 +50,7 @@ const randomDescription = () => {
   return string;
 };
 
-const generateData = () => {
+const generatePropData = () => {
   let counter = 0;
   writer.pipe(fs.createWriteStream('propertySeed.csv'));
   for (let i = 0; i < 10000000; i += 1) {
@@ -74,4 +74,3 @@ const pipeTest = () => {
   writer.end();
 };
 
-pipeTest();

@@ -5,7 +5,6 @@ USE more_places;
 
 CREATE TABLE IF NOT EXISTS users (
   id bigint PRIMARY KEY,
-  email text,
   name text
 )
 
