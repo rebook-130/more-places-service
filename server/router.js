@@ -4,7 +4,7 @@ const router = express.Router();
 // const db = require('./database/index');
 const control = require('./database/control');
 
-router.get('/api/listing/:id/moreplaces', (req, res) => {
+router.get('/api/listing/:id/more-places', (req, res) => {
   // get 12 random listings from listings DB
   control.getListings((err, data) => {
     if (err) {
@@ -67,7 +67,7 @@ router.patch('/api/user/:id/collections', (req, res) => {
 
 router.get('/api/properties/:id/collections', (req, res) => {
   // get specific collection by houseId
-  control.getHouseList(req.query.houseId, (err, data) => {
+  control.getHouseList(req.params.id, (err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
