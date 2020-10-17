@@ -3,6 +3,16 @@ CREATE KEYSPACE IF NOT EXISTS more_places WITH replication = {'class': 'NetworkT
 USE more_places;
 
 
+CREATE TABLE IF NOT EXISTS users (
+  id bigint PRIMARY KEY,
+  email text,
+  name text
+)
+
+
+
+
+
 -- query first table schemas
 -- to get 12 random properties query properties by listing id and get listing data
 -- when seeding, require 10M records. if we distribute 20 partition ids, this may optimize the querying. It may be trial and error.
@@ -12,16 +22,18 @@ USE more_places;
 
 CREATE TABLE IF NOT EXISTS properties_by_id (
   partition_id int, -- need feedback on this idea, adding constructed partition id to have more control over which listings records are added to which nodes
-  listing_id bigint,
+  property_id bigint,
   photoURL text,
   descrip text,
   rating float,
   review_count int,
   beds smallint,
   price float,
-  PRIMARY KEY (partition_id, listing_id)
+  PRIMARY KEY (partition_id, property_id)
 );
 
+
+-- get /api/listing/09554324687213/more-places
 -----------------------------------------------
 
 
@@ -41,10 +53,10 @@ CREATE TABLE IF NOT EXISTS properties_by_id (
 CREATE TABLE IF NOT EXISTS collections_by_user (
   user_id bigint,
   collection_name text,
-  saved_property text,
+  property_id bigint,
   property_count int, -- needs to be incremented for each row in the collection name
   photo_url text,
-  PRIMARY KEY(user_id, collection_id)
+  PRIMARY KEY(user_id, collection_name)
 );
 
 -- to quickly ascertain the count properties in each  collection
@@ -69,16 +81,16 @@ CREATE TABLE IF NOT EXISTS collections_by_user (
 
 CREATE TABLE IF NOT EXISTS collections_by_properties_id (
   partition_id int,
-  listing_id bigint,
-  user_id bigint,
-  collection_name,
-  PRIMARY KEY (partition_id, listing_id)
+  property_id bigint,
+  user_id bigint, -- possibility of optimizing by partitioning to nodes using user_id instead of partition_id
+  collection_name text,
+  PRIMARY KEY (partition_id, property_id, user_id)
 );
 
 
 
 
--- propertys_by_id
+-- properties_by_id
 
 -- partition_id  |   listing_id    |   descrip
 -- 111           |   2549517356    |   "house in home staY space"
