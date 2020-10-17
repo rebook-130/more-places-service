@@ -15,7 +15,7 @@ router.get('/api/listing/:id/moreplaces', (req, res) => {
   });
 });
 
-router.get('/api/collections', (req, res) => {
+router.get('/api/user/:id/collections', (req, res) => {
   // get all lists that have been created from saved DB
   control.getLists((err, data) => {
     if (err) {
@@ -26,7 +26,7 @@ router.get('/api/collections', (req, res) => {
   });
 });
 
-router.post('/api/collections', (req, res) => {
+router.post('/api/user/:id/collections', (req, res) => {
   console.log('saving collection ', req.body.name);
   // insert a new list into the saved DB
   const data = {
@@ -44,7 +44,7 @@ router.post('/api/collections', (req, res) => {
   });
 });
 
-router.patch('/api/collections', (req, res) => {
+router.patch('/api/user/:id/collections', (req, res) => {
   // update the saved props of a listing and count of collection when clicked
   const update = { savedTo: req.body.name, isSaved: req.body.isSaved };
   const { houseId, name } = { houseId: req.body.houseId, name: req.body.name };
@@ -65,7 +65,7 @@ router.patch('/api/collections', (req, res) => {
   }
 });
 
-router.get('/api/properties/collections', (req, res) => {
+router.get('/api/properties/:id/collections', (req, res) => {
   // get specific collection by houseId
   control.getHouseList(req.query.houseId, (err, data) => {
     if (err) {
@@ -77,7 +77,7 @@ router.get('/api/properties/collections', (req, res) => {
   });
 });
 
-router.delete('/api/collections', (req, res) => {
+router.delete('/api/user/:id/collections', (req, res) => {
   // removes all collections saved collection by name
   control.removeAllLists((err, data) => {
     if (err) {
