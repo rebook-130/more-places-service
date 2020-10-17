@@ -74,7 +74,7 @@ class ListingModal extends React.Component {
     // ajax get request to get the name by id
     $.ajax({
       method: 'GET',
-      url: '/api/property/collections',
+      url: '/api/properties/collections',
       data: {
         houseId: this.props.listing
       },
