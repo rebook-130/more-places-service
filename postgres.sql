@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS users(
 
 -- each collection has many saved properties
 CREATE TABLE IF NOT EXISTS collections(
-  id BIGINT NOT NULL UNIQUE,
-  name VARCHAR(40) NOT NULL,
-  count INT NOT NULL, -- calculated field
+  id BIGINT NOT NULL AUTO INCREMENT,
   user_id BIGINT NOT NULL,
+  collection_name VARCHAR(40) NOT NULL,
+  --count INT, -- calculated field
   PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 )
@@ -36,12 +36,13 @@ CREATE TABLE IF NOT EXISTS saved_prop(
 CREATE TABLE IF NOT EXISTS properties(
   id BIGINT NOT NULL UNIQUE,
   photo_url VARCHAR(300),
-  descrip VARCHAR(300),
+  descrip VARCHAR(500),
   superhost INT,
-  rating FLOAT,
+  rating VARCHAR(10),
   review_count INT,
   room_type VARCHAR(50),
   beds INT,
   price FLOAT,
+  location VARCHAR(200),
   PRIMARY KEY (id)
 )

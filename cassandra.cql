@@ -6,10 +6,7 @@ USE more_places;
 CREATE TABLE IF NOT EXISTS users (
   id bigint PRIMARY KEY,
   name text
-)
-
-
-
+);
 
 
 -- query first table schemas
@@ -20,15 +17,17 @@ CREATE TABLE IF NOT EXISTS users (
       --> getListings: mongo.Listing.findRandom({}, {}, { limit: 12 }, callback)
 
 CREATE TABLE IF NOT EXISTS properties_by_id (
-  partition_id int, -- need feedback on this idea, adding constructed partition id to have more control over which listings records are added to which nodes
+  -- since the platform should auto group records into nodes, this hould not be required. partition_id int, -- need feedback on this idea, adding constructed partition id to have more control over which listings records are added to which nodes
   property_id bigint,
   photoURL text,
   descrip text,
+  superhost int,
   rating float,
   review_count int,
   beds smallint,
   price float,
-  PRIMARY KEY (partition_id, property_id)
+  location text,
+  PRIMARY KEY (property_id)
 );
 
 
@@ -53,7 +52,7 @@ CREATE TABLE IF NOT EXISTS collections_by_user (
   user_id bigint,
   collection_name text,
   property_id bigint,
-  property_count int, -- needs to be incremented for each row in the collection name
+  --property_count int, -- needs to be incremented for each row in the collection name
   photo_url text,
   PRIMARY KEY(user_id, collection_name)
 );
@@ -79,11 +78,11 @@ CREATE TABLE IF NOT EXISTS collections_by_user (
       --> removeFromList: database.Listing.findOneAndUpdate({ houseId: data.houseId }, { $set: data.update },).exec(callback)
 
 CREATE TABLE IF NOT EXISTS collections_by_properties_id (
-  partition_id int,
+  -- partition_id int,
   property_id bigint,
   user_id bigint, -- possibility of optimizing by partitioning to nodes using user_id instead of partition_id
   collection_name text,
-  PRIMARY KEY (partition_id, property_id, user_id)
+  PRIMARY KEY (property_id, user_id)
 );
 
 

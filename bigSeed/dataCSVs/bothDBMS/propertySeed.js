@@ -1,7 +1,6 @@
 // cassandra seeding script
 
 // properties_by_id
-
 const fs = require('fs');
 const csvWriter = require('csv-write-stream');
 // const faker = require('faker');
@@ -18,7 +17,7 @@ const template = {
   adjective: ['Central', 'Very quiet', '100% Private', 'Exquisite', '420 Friendly', 'Earthy', 'Cozy', 'Comfortable', 'Stunning', 'Minimalist', 'Beautiful', 'Modernist', 'Private', 'Sunny', 'Shady', 'Exciting', 'Lively', 'Centrally Located', 'Colorful', 'Inexpensive', 'Pet-friendly', 'Scenic', 'Desert', 'Haunted', 'Spooky', 'Crooked', 'Gigantic'],
   place: ['Location', 'Room', 'Views', 'Dream', 'Oasis', 'Area', 'House', 'Stay', 'Home', 'Condo', 'Condominum', 'Getaway', 'Apartment', 'Mansion', 'Flat', 'Cabin', 'little slice of heaven'],
   attributes1: ['Pool', 'Garden', 'Balcony', 'Yard', 'kitchen'],
-  attributes2: ['in the woods', 'in space', 'in heaven', 'in city', 'in vibrant neighborhood'],
+  attributes2: [' in the woods', ' in space', ' in heaven', ' in city', ' in vibrant neighborhood'],
   punctuation: ['!', '', '', '', ''],
 };
 
@@ -37,7 +36,7 @@ const randomDescription = () => {
   let propAttrib = '';
 
   if (!Math.round(Math.random())) {
-    adj = ` with ${adjIndex2} ${attribIndex} `;
+    adj = ` with ${adjIndex2} ${attribIndex}`;
   }
   if (Math.round(Math.random() * 3)) {
     propAttrib = template.attributes2[Math.floor(Math.random() * template.attributes2.length)];
@@ -54,23 +53,33 @@ const generatePropData = () => {
   let counter = 0;
   writer.pipe(fs.createWriteStream('propertySeed.csv'));
   for (let i = 0; i < 10000000; i += 1) {
+    let superhost = 0;
+    if (Math.floor(Math.random() * 10)) {
+      superhost = 1;
+    }
     writer.write({
       // partition_id: partitionIds[Math.floor(Math.random() * 19)],
       property_id: counter += 1,
-      photoUrl: `http://aws.com/${'hello'}`,
-      descrip: 'description',
-      rating: (Math.random() * 2) + 3,
-      review_count: Math.floor(Math.random() * 1000),
+      photoUrl: `https://more-places-photos.s3.us-east-2.amazonaws.com/property${Math.ceil(Math.random() * 924)}.jpg`,
+      descrip: randomDescription(),
+      superhost,
+      rating: (Math.random() * 2 + 3).toFixed(2),
+      review_count: Math.floor(Math.random() * 5000),
       beds: Math.ceil(Math.random() * 8),
-      price: Math.ceil(Math.random() * 8),
+      price: (Math.random() * 300 + 19),
       location: location[Math.floor(Math.random() * location.length)],
     });
   }
 };
 
-const pipeTest = () => {
-  writer.pipe(fs.createWriteStream('pipe.test'));
-  writer.write({ hello: 'world', foo: 'bar', baz: 'taco' });
-  writer.end();
-};
+// const pipeTest = () => {
+//   writer.pipe(fs.createWriteStream('pipe.test'));
+//   writer.write({ hello: 'world', foo: 'bar', baz: 'taco' });
+//   writer.end();
+// };
 
+generatePropData();
+
+// for (let i = 0; i < 50; i += 1) {
+//   console.log(randomDescription());
+// }
