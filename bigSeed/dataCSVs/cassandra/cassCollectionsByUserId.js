@@ -11,14 +11,14 @@ const collectionNames = ['myList', 'myCollection', 'Dream Homes', 'favorites', '
 
 const generateCollectionData = () => {
   let usersCount = 0;
-  writer.pipe(fs.createWriteStream('postgresCollectionsSeed.csv'));
+  writer.pipe(fs.createWriteStream('cassCollectionsByUserSeed.csv'));
 
   // each of 1M users
-  for (let i = 0; i < 1000000; i += 1) {
+  for (let i = 0; i < 10000000; i += 1) {
     usersCount += 1;
 
     // between 0 and 10 collections per user
-    const collectionCount = Math.round(Math.random() * 10);
+    const collectionCount = Math.round(Math.random() * 3);
     for (let j = 0; j < collectionCount; j += 1) {
       const name = collectionNames[Math.floor(Math.random() * collectionNames.length)];
 
