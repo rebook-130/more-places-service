@@ -10,6 +10,9 @@ bundle.js
 package-lock.json
 *.csv
 
+config
+
+
 pids
 *.pid
 logs

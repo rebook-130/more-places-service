@@ -65,7 +65,7 @@ router.patch('/api/user/:id/collections', (req, res) => {
   }
 });
 
-router.get('/api/properties/:id/collections', (req, res) => {
+router.get('/api/user/:id/properties/:id/collections', (req, res) => {
   // get specific collection by houseId
   control.getHouseList(req.params.id, (err, data) => {
     if (err) {

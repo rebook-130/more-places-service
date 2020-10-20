@@ -15,9 +15,9 @@ CREATE TABLE IF NOT EXISTS users (
 
   -- GET /api/more_places
       --> getListings: mongo.Listing.findRandom({}, {}, { limit: 12 }, callback)
+  -- since the platform should auto group records into nodes, this hould not be required. partition_id int, -- need feedback on this idea, adding constructed partition id to have more control over which listings records are added to which nodes
 
 CREATE TABLE IF NOT EXISTS properties_by_id (
-  -- since the platform should auto group records into nodes, this hould not be required. partition_id int, -- need feedback on this idea, adding constructed partition id to have more control over which listings records are added to which nodes
   property_id bigint,
   photoURL text,
   descrip text,
@@ -47,12 +47,12 @@ CREATE TABLE IF NOT EXISTS properties_by_id (
       --> createList: mongo.SavedLists.create(data, callback)
   -- DELETE /api/collections
       --> removeAllLists: mongo.SavedLists.deleteMany({})
+  --property_count int, -- needs to be incremented for each row in the collection name
 
 CREATE TABLE IF NOT EXISTS collections_by_user (
   user_id bigint,
   collection_name text,
   property_id bigint,
-  --property_count int, -- needs to be incremented for each row in the collection name
   photo_url text,
   PRIMARY KEY(user_id, collection_name)
 );
@@ -76,13 +76,14 @@ CREATE TABLE IF NOT EXISTS collections_by_user (
   -- **PATCH api/collections
       --> addToList: mongo.Listing.findOneAndUpdate({ houseId: data.houseId }, { $set: data.update }).exec(callback)
       --> removeFromList: database.Listing.findOneAndUpdate({ houseId: data.houseId }, { $set: data.update },).exec(callback)
+  -- partition_id int,
+  -- possibility of optimizing by partitioning to nodes using user_id instead of partition_id
 
 CREATE TABLE IF NOT EXISTS collections_by_properties_id (
-  -- partition_id int,
+  user_id bigint,
   property_id bigint,
-  user_id bigint, -- possibility of optimizing by partitioning to nodes using user_id instead of partition_id
   collection_name text,
-  PRIMARY KEY (property_id, user_id)
+  PRIMARY KEY (user_id, property_id)
 );
 
 
@@ -104,3 +105,13 @@ CREATE TABLE IF NOT EXISTS collections_by_properties_id (
 -- 111 : 2547517356
 -- SELECT * FROM properties_by_id WHERE partition_id = 111 AND listing_id = 2547517356;
 
+/*
+COPY users (id, name) FROM ‘/Users/jamesscolamieri/work/system-design-capstone/more-places-service/bigSeed/dataCSVs/bothDBMS/users.csv’ with header=true and delimiter =’,’;
+
+COPY users(id,name) FROM '/Users/jamesscolamieri/work/system-design-capstone/more-p
+laces-service/bigSeed/dataCSVs/bothDBMS/users.csv' WITH header=true;
+
+COPY properties_by_id(property_id,photoURL,descrip,superhost,rating,review_count,beds,price,location) FROM '/Users/jamesscolamieri/work/system-design-capstone/more-places-service/bigSeed/dataCSVs/bothDBMS/propertySeed.csv' WITH header=true;
+
+COPY collections_by_user(user_id,collection_name,property_id,photo_url) FROM '/Users/jamesscolamieri/work/system-design-capstone/more-places-service/bigSeed/dataCSVs/cassandra/cassCollectionsByUserSeed.csv' WITH header=true;
+*/
