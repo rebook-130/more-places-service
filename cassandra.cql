@@ -17,13 +17,14 @@ CREATE TABLE IF NOT EXISTS users (
       --> getListings: mongo.Listing.findRandom({}, {}, { limit: 12 }, callback)
   -- since the platform should auto group records into nodes, this hould not be required. partition_id int, -- need feedback on this idea, adding constructed partition id to have more control over which listings records are added to which nodes
 
-CREATE TABLE IF NOT EXISTS properties_by_id (
+CREATE TABLE IF NOT EXISTS properties (
   property_id bigint,
   photoURL text,
   descrip text,
   superhost int,
   rating float,
   review_count int,
+  room_type text,
   beds smallint,
   price float,
   location text,
@@ -54,7 +55,7 @@ CREATE TABLE IF NOT EXISTS collections_by_user (
   collection_name text,
   property_id bigint,
   photo_url text,
-  PRIMARY KEY(user_id, collection_name)
+  PRIMARY KEY(user_id, collection_name, property_id)
 );
 
 -- to quickly ascertain the count properties in each  collection

@@ -2,22 +2,24 @@ const express = require('express');
 
 const router = express.Router();
 // const db = require('./database/index');
-const control = require('./database/control');
+const model = require('./database/model/cassandraModel');
+
+const callback = (req, res) => (err, data) => {
+  if (err) {
+    res.status(400).send(err.name);
+  } else {
+    res.status(200).send(data.rows);
+  }
+};
 
 router.get('/api/listing/:id/more-places', (req, res) => {
   // get 12 random listings from listings DB
-  control.getListings((err, data) => {
-    if (err) {
-      res.status(400).send('Failed to get listings');
-    } else {
-      res.status(200).send(data);
-    }
-  });
+  model.getListings(callback(req, res));
 });
 
 router.get('/api/user/:id/collections', (req, res) => {
   // get all lists that have been created from saved DB
-  control.getLists((err, data) => {
+  model.getLists((err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
@@ -35,7 +37,7 @@ router.post('/api/user/:id/collections', (req, res) => {
     count: 1,
     time: 'Any time',
   };
-  control.createList(data, (err) => {
+  model.createList(data, (err) => {
     if (err) {
       res.status(400).send('Failed to create list');
     } else {
@@ -58,16 +60,16 @@ router.patch('/api/user/:id/collections', (req, res) => {
 
   if (req.body.isSaved === 'true') {
     // if saving, increment count and update save props of listing to true
-    control.saveToList({ update, houseId, name }, cb);
+    model.saveToList({ update, houseId, name }, cb);
   } else {
     // else, decrement count and change save to false
-    control.removeFromList({ update, houseId, name }, cb);
+    model.removeFromList({ update, houseId, name }, cb);
   }
 });
 
 router.get('/api/user/:id/properties/:id/collections', (req, res) => {
   // get specific collection by houseId
-  control.getHouseList(req.params.id, (err, data) => {
+  model.getHouseList(req.params.id, (err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
@@ -79,7 +81,7 @@ router.get('/api/user/:id/properties/:id/collections', (req, res) => {
 
 router.delete('/api/user/:id/collections', (req, res) => {
   // removes all collections saved collection by name
-  control.removeAllLists((err, data) => {
+  model.removeAllLists((err, data) => {
     if (err) {
       res.status(500).send('Failed to delete records');
     } else {
@@ -90,7 +92,7 @@ router.delete('/api/user/:id/collections', (req, res) => {
 
 // may be able to deprecate this one
 // router.patch('/api/revert_saved', (req, res) => {
-//   control.revertSaved((err) => {
+//   model.revertSaved((err) => {
 //     if (err) {
 //       res.status(500).send('Failed to revert saved records');
 //     } else {
@@ -106,7 +108,7 @@ router.delete('/api/user/:id/collections', (req, res) => {
 //   let name = req.body.name;
 //   let update = { savedTo: req.body.name, isSaved: true};
 //   // db.Listing.findOneAndUpdate(filter, { '$set': update }).exec(
-//   control.saveToList({ houseId, update, name }, (err) => {
+//   model.saveToList({ houseId, update, name }, (err) => {
 //     if (err) {
 //       res.status(500).send('Failed to update');
 //     } else {
