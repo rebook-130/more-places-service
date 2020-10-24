@@ -82,14 +82,14 @@ const Entry = (props) => {
   var stays = (props.collection.count === 1) ? ('stay') : ('stays');
   return (
     <Container>
-      <Button onClick={() => { props.handleSave(props.collection.name); }}>
+      <Button onClick={() => { props.handleSave(props.collection.collection_name); }}>
         <div>
           <ImageContainer>
-            <Image src={props.collection.photoUrl}></Image>
+            <Image src={props.collection.photo_url}></Image>
           </ImageContainer>
           <Description>
             <Time>{props.collection.time}</Time>
-            <Name>{props.collection.name}</Name>
+            <Name>{props.collection.collection_name}</Name>
             {props.collection.count <= 0 && <Count>Nothing saved yet</Count>}
             {props.collection.count > 0 && <Count>{`${props.collection.count} ${stays}`}</Count>}
           </Description>

@@ -62,7 +62,7 @@ const generatePropData = () => {
       review_count: Math.floor(Math.random() * 5000),
       room_type: roomType[Math.floor(Math.random() * roomType.length)],
       beds: Math.ceil(Math.random() * 8),
-      price: (Math.random() * 300 + 19),
+      price: Math.round(Math.random() * 300 + 19),
       location: location[Math.floor(Math.random() * location.length)],
       photo_url: `https://more-places-photos.s3.us-east-2.amazonaws.com/property${Math.ceil(Math.random() * 924)}.jpg`,
     });

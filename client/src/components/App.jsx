@@ -10,6 +10,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: 1,
       listings: [],
       refs: { 0: React.createRef(), 1: React.createRef(), 2: React.createRef(), 3: React.createRef(), 4: React.createRef(), 5: React.createRef(), 6: React.createRef(), 7: React.createRef(), 8: React.createRef(), 9: React.createRef(), 10: React.createRef(), 11: React.createRef()},
       page: 1,
@@ -24,7 +25,7 @@ class App extends React.Component {
   componentDidMount() {
     $.ajax({
       method: 'GET',
-      url: '/api/more_places',
+      url: `/api/users/${this.state.userId}/more_places`,
       success: (data) => {
         this.setState({
           listings: data
@@ -75,7 +76,7 @@ class App extends React.Component {
   update() {
     $.ajax({
       method: 'GET',
-      url: '/api/collections',
+      url: `/api/users/${this.state.userId}/collections`,
       success: (data) => {
         this.setState({
           collections: data
@@ -104,7 +105,7 @@ class App extends React.Component {
             </Next>
           </SelectContainer>
         </TitleContainer>
-        <Listings listings={this.state.listings} refs={this.state.refs} collections={this.state.collections} update={this.update}/>
+        <Listings listings={this.state.listings} refs={this.state.refs} collections={this.state.collections} update={this.update} user={this.state.userId} />
       </Container>
     );
   }

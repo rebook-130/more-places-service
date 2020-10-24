@@ -6,7 +6,7 @@ import {List} from '../styling.jsx';
 
 const Listings = (props) => {
 
-  const places = props.listings.map((listing, index) => <ListingEntry refs={props.refs} index={index} key={listing.houseId} listing={listing} collections={props.collections} update={props.update}/>);
+  const places = props.listings.map((listing, index) => <ListingEntry refs={props.refs} index={index} key={listing.houseId} listing={listing} collections={props.collections} update={props.update} user={props.user} />);
   return (
     <List>{places}</List>
   );

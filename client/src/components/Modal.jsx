@@ -15,6 +15,7 @@ class ListingModal extends React.Component {
       opacity: 0,
       isCreate: false,
       saved: this.props.saved,
+      userId: this.props.user,
     };
     this.toggleCreate = this.toggleCreate.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
@@ -55,13 +56,14 @@ class ListingModal extends React.Component {
   }
 
   handleSave(input) {
+    console.log('listing ', this.props.listing);
     // saves/updates the database based on clicks on existing lists in the modal
     $.ajax({
       method: 'PATCH',
-      url: '/api/collections',
+      url: `/api/users/${this.state.userId}/collections`,
       data: {
         houseId: this.props.listing,
-        name: input,
+        collection_name: input,
         isSaved: true
       },
       success: () => {
@@ -72,19 +74,20 @@ class ListingModal extends React.Component {
 
   handleUnsave() {
     // ajax get request to get the name by id
+
     $.ajax({
       method: 'GET',
-      url: '/api/properties/collections',
-      data: {
-        houseId: this.props.listing
-      },
+      url: `/api/users/${this.state.userId}/properties/${this.props.listing}`,
+      // data: {
+      //   houseId: this.props.listing
+      // },
       success: (data) => {
         $.ajax({
           method: 'PATCH',
-          url: '/api/collections',
+          url: `/api/users/${this.state.userId}/collections`,
           data: {
             houseId: this.props.listing,
-            name: data.savedTo,
+            collection_name: data[0].collection_name,
             isSaved: false
           },
           success: () => {
@@ -128,7 +131,7 @@ class ListingModal extends React.Component {
 
         {!this.state.isCreate && <SaveModal isOpen={this.state.isOpen} isCreate={this.state.isCreate} toggleModal={this.toggleModal} toggleCreate={this.toggleCreate} opacity={this.state.opacity} afterOpen={this.afterOpen} beforeClose={this.beforeClose} collections={this.props.collections} handleSave={this.handleSave}/>}
 
-        {this.state.isCreate && <FormModal isOpen={this.state.isOpen} isCreate={this.state.isCreate} toggleModal={this.toggleModal} toggleCreate={this.toggleCreate} opacity={this.state.opacity} afterOpen={this.afterOpen} beforeClose={this.beforeClose} listing={this.props.listing} handleUpdate={this.handleFormUpdate}/>}
+        {this.state.isCreate && <FormModal isOpen={this.state.isOpen} isCreate={this.state.isCreate} toggleModal={this.toggleModal} toggleCreate={this.toggleCreate} opacity={this.state.opacity} afterOpen={this.afterOpen} beforeClose={this.beforeClose} listing={this.props.listing} handleUpdate={this.handleFormUpdate} userId={this.state.userId} photoUrl={this.props.photoUrl} />}
 
       </Heart>
     );

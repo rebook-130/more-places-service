@@ -24,12 +24,13 @@ exports.getListings = (callback) => {
 };
 
 exports.getCollectionsByUser = (user_id, callback) => {
-  const query = 'SELECT * FROM collections_by_user WHERE user_id = ?';
+  const query = 'SELECT collection_name, photo_url FROM collections_by_user WHERE user_id = ?';
   const params = [ user_id ];
   client.execute(query, params, { prepare: true }, callback);
 };
 
 exports.saveProperty = (data, callback) => {
+  console.log(data.collection_name);
   const queries = [
     {
       query: 'INSERT INTO collections_by_user(user_id, collection_name, property_id, photo_url)  VALUES (?, ?, ?, ?)',
