@@ -1,0 +1,144 @@
+// ------------  POSTGRESQL QUERIES  ------------ //
+
+// write record for create a new collection
+INSERT INTO collections(user_id, collection_name)VALUES (401100, 'testyMcTest');
+// returns
+INSERT 0 1
+Time: 4.269 ms
+
+// write record for saving a property to collection
+INSERT INTO saved_prop (property_id, collection_id, user_id) VALUES (9287976, 5001120, 401100);
+// returns
+INSERT 0 1
+Time: 3.591 ms
+
+// write (remove) record for unsaving a property from a collection
+DELETE FROM saved_prop WHERE user_id=401100 AND collection_id=5001120 AND property_id=9287976;
+// returns
+DELETE 1
+Time: 1.631 ms
+
+// returns
+INSERT 0 1
+Time: 3.591 ms
+
+// read whether property is saved to users collections
+SELECT * FROM saved_prop WHERE user_id = 401100 AND property_id = 9287976;
+// returns
+ property_id | collection_id | user_id | save_id
+-------------+---------------+---------+----------
+     9287976 |       5001120 |  401100 | 25006646
+(1 row)
+Time: 1.601 ms
+
+
+// read all saved properties by user
+// for a user, can try caching in proxy or on session in client app state
+sdc_more_places=# SELECT * FROM saved_prop WHERE user_id = 911000;
+// returns
+ property_id | collection_id | user_id | save_id
+-------------+---------------+---------+----------
+     6286667 |       4555136 |  911000 | 22778614
+     8285672 |       4555136 |  911000 | 22778615
+      638254 |       4555136 |  911000 | 22778616
+     6734984 |       4555136 |  911000 | 22778617
+     7981684 |       4555136 |  911000 | 22778618
+     4807007 |       4555136 |  911000 | 22778619
+     9854893 |       4555136 |  911000 | 22778620
+     5893943 |       4555136 |  911000 | 22778621
+     4219921 |       4555136 |  911000 | 22778622
+     1493841 |       4555137 |  911000 | 22778623
+     4123875 |       4555137 |  911000 | 22778624
+     8676787 |       4555137 |  911000 | 22778625
+     9482664 |       4555137 |  911000 | 22778626
+      255121 |       4555137 |  911000 | 22778627
+      656367 |       4555137 |  911000 | 22778628
+     8949023 |       4555137 |  911000 | 22778629
+     7043669 |       4555137 |  911000 | 22778630
+     5628449 |       4555137 |  911000 | 22778631
+     3107385 |       4555137 |  911000 | 22778632
+     4354141 |       4555138 |  911000 | 22778633
+(20 rows)
+
+Time: 12.849 ms
+
+// read 12 random properties
+generate random number based on total properties count --> 9324561
+SELECT * FROM properties WHERE property_id < random_id AND property_id > random_id + 13 LIMIT 12;
+// resolves to:
+SELECT * FROM properties WHERE property_id > 9324561 AND property_id < 9324574 LIMIT 12;
+// returns
+ property_id |                               photourl                                |                         descrip                         | superhost | rating | review_count | room_type | beds |      price       |   location
+-------------+-----------------------------------------------------------------------+---------------------------------------------------------+-----------+--------+--------------+-----------+------+------------------+---------------
+     9324562 | https://more-places-photos.s3.us-east-2.amazonaws.com/property18.jpg  | Pet-friendly Room in space                              |         0 | 4.50   |           40 |           |    1 | 67.0710813733923 | Santa Barbara
+     9324563 | https://more-places-photos.s3.us-east-2.amazonaws.com/property711.jpg | MODERNIST CONDOMINUM                                    |         1 | 3.47   |         3148 |           |    1 |  42.139895025426 | Yucca Valley
+     9324564 | https://more-places-photos.s3.us-east-2.amazonaws.com/property586.jpg | Private House with Exciting kitchen in heaven           |         1 | 4.50   |         4014 |           |    1 | 287.666922601285 | San Francisco
+     9324565 | https://more-places-photos.s3.us-east-2.amazonaws.com/property394.jpg | Very quiet Condominum in space                          |         1 | 3.01   |           48 |           |    6 | 71.9246150829562 | Yucca Valley
+     9324566 | https://more-places-photos.s3.us-east-2.amazonaws.com/property59.jpg  | Scenic Condo in city                                    |         1 | 4.33   |          879 |           |    2 | 288.067688899107 | Anaheim
+     9324567 | https://more-places-photos.s3.us-east-2.amazonaws.com/property78.jpg  | Centrally Located Condo in heaven                       |         1 | 4.66   |         2753 |           |    7 | 254.729101641196 | Berkeley
+     9324568 | https://more-places-photos.s3.us-east-2.amazonaws.com/property238.jpg | Scenic House                                            |         1 | 3.24   |         2574 |           |    3 | 248.506768720001 | Santa Monica
+     9324569 | https://more-places-photos.s3.us-east-2.amazonaws.com/property369.jpg | EXCITING Condo in the woods!                            |         1 | 4.25   |         4198 |           |    3 | 291.456200887989 | Sutton
+     9324570 | https://more-places-photos.s3.us-east-2.amazonaws.com/property623.jpg | CENTRALLY LOCATED STAY WITH MODERNIST KITCHEN IN HEAVEN |         1 | 4.99   |         1346 |           |    7 | 104.659590762776 | San Diego
+     9324571 | https://more-places-photos.s3.us-east-2.amazonaws.com/property596.jpg | Exciting Apartment in space                             |         0 | 3.85   |         2627 |           |    8 | 190.093970404101 | San Diego
+     9324572 | https://more-places-photos.s3.us-east-2.amazonaws.com/property383.jpg | Scenic Home                                             |         1 | 4.44   |         2795 |           |    6 | 259.336468442532 | Burbank
+     9324573 | https://more-places-photos.s3.us-east-2.amazonaws.com/property534.jpg | Inexpensive Condominum with Sunny kitchen in the woods  |         1 | 3.10   |          990 |           |    6 | 117.370868273827 | Santa Monica
+(12 rows)
+
+Time: 6.523 ms
+
+
+
+
+// ------------  CASSANDRA QUERIES  ------------ //
+
+// READ Get collections by user
+SELECT * FROM collections_by_user WHERE user_id = 500000 ;
+// returns
+ user_id | collection_name | photo_url                                                             | property_id
+---------+-----------------+-----------------------------------------------------------------------+-------------
+  500000 |      cool decor | https://more-places-photos.s3.us-east-2.amazonaws.com/property878.jpg |     2453934
+  500000 |        inviting | https://more-places-photos.s3.us-east-2.amazonaws.com/property585.jpg |     7953736
+source_elapsed 4.3ms
+
+
+// READ get a property (needs random number input)
+SELECT * FROM properties_by_id WHERE = 9641200;
+// returns
+ property_id | beds | descrip                  | location | photourl                                                             | price     | rating | review_count | superhost
+-------------+------+--------------------------+----------+----------------------------------------------------------------------+-----------+--------+--------------+-----------
+     9641200 |    2 | Modernist Home in heaven |  Anaheim | https://more-places-photos.s3.us-east-2.amazonaws.com/property50.jpg | 227.97424 |   4.76 |         1663 |         1
+source_elapsed 6.243ms
+
+// READ whether a property is saved by a user:
+SELECT * from collections_by_properties_id WHERE property_id = 8849617 AND user_id = 401091;
+// returns
+ user_id | property_id | collection_name
+---------+-------------+-----------------
+
+(0 rows)
+source_elapsed 24.589ms
+
+
+// get a users saved properties and collections
+SELECT * from collections_by_properties_id WHERE user_id = 2401091;
+//returns
+ user_id | property_id | collection_name
+---------+-------------+-----------------
+ 2401091 |     3851613 |          myList
+ 2401091 |     6848534 |       favorites
+ 2401091 |     9519174 |       favorites
+
+(3 rows)
+source_elapsed 8.239ms
+
+
+// write record to save a collection
+INSERT INTO collections_by_user(user_id, collection_name, photo_url, property_id)  VALUES (5714449, 'testyMcTest', 'https://google.com', 1);
+// returns
+source_elapsed 11.099ms
+
+
+
+
+
+

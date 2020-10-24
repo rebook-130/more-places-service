@@ -107,22 +107,23 @@ class FormModal extends React.Component {
 
   handleSubmit() {
     // send ajax post req to server to insert into saved lists
-    $.ajax({
-      method: 'POST',
-      url: '/api/collections',
-      data: {
-        name: this.state.value,
-        photoUrl: `https://source.unsplash.com/480x480/?home&sig=${Math.random()}`
-      }
-    });
+    // $.ajax({
+    //   method: 'POST',
+    //   url: '/api/collections',
+    //   data: {
+    //     collection_name: this.state.value,
+    //     photoUrl: `https://source.unsplash.com/480x480/?home&sig=${Math.random()}`
+    //   }
+    // });
     // send ajax patch req to server to update isSaved/savedto
     $.ajax({
       method: 'PATCH',
-      url: '/api/collections',
+      url: `/api/users/${this.props.userId}/collections`,
       data: {
         name: this.state.value,
-        houseId: this.props.listing
-      }
+        houseId: this.props.listing,
+        photo_url: this.props.photoUrl,
+      },
     });
     // close pop ups
     this.props.toggleCreate();

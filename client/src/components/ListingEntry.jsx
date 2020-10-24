@@ -25,7 +25,7 @@ class ListingEntry extends React.Component {
         <Card>
           <div ref={this.props.refs[this.props.index]}>
             <Frame>
-              <Image src={this.props.listing.photoUrl}></Image>
+              <Image src={this.props.listing.photo_url}></Image>
               <TopFrame>
                 {this.props.listing.isSuperHost &&
                   <Host>
@@ -37,7 +37,7 @@ class ListingEntry extends React.Component {
                   </NoHost>
                 }
 
-                <PopupModal listing={this.props.listing.houseId} photoUrl={this.props.listing.photoUrl} saved={this.props.listing.isSaved} savedTo={this.props.listing.savedTo} update={this.props.update} collections={this.props.collections} />
+                <PopupModal listing={this.props.listing.property_id} photoUrl={this.props.listing.photo_url} saved={this.props.listing.isSaved} savedTo={this.props.listing.savedTo} update={this.props.update} collections={this.props.collections} user={this.props.user} />
 
               </TopFrame>
             </Frame>
@@ -51,12 +51,12 @@ class ListingEntry extends React.Component {
               <ReviewCount>{`(${this.props.listing.reviewCount})`}</ReviewCount>
             </Rating>
             <RoomDescription>
-              <Text>{`${this.props.listing.roomType} · `}</Text>
+              <Text>{`${this.props.listing.room_type} · `}</Text>
               <Text>{this.props.listing.numBeds} Beds</Text>
             </RoomDescription>
             <RoomDescription>
               <Text>
-                {`${this.props.listing.location}, ${this.props.listing.description}`}
+                {`${this.props.listing.location}, ${this.props.listing.descrip}`}
               </Text>
             </RoomDescription>
             <div>

@@ -1,85 +1,101 @@
 const express = require('express');
 
 const router = express.Router();
-// const db = require('./database/index');
-const control = require('./database/control');
+const model = require('./database/model/cassandraModel');
 
-router.get('/api/more_places', (req, res) => {
-  // get 12 random listings from listings DB
-  control.getListings((err, data) => {
-    if (err) {
-      res.status(400).send('Failed to get listings');
-    } else {
-      res.status(200).send(data);
-    }
-  });
-});
-
-router.get('/api/collections', (req, res) => {
-  // get all lists that have been created from saved DB
-  control.getLists((err, data) => {
-    if (err) {
-      res.status(400).send('Failed to get lists');
-    } else {
-      res.status(200).send(data);
-    }
-  });
-});
-
-router.post('/api/collections', (req, res) => {
-  console.log('saving collection ', req.body.name);
-  // insert a new list into the saved DB
-  const data = {
-    name: req.body.name,
-    photoUrl: req.body.photoUrl,
-    count: 1,
-    time: 'Any time',
-  };
-  control.createList(data, (err) => {
-    if (err) {
-      res.status(400).send('Failed to create list');
-    } else {
-      res.status(202).send('List created');
-    }
-  });
-});
-
-router.patch('/api/collections', (req, res) => {
-  // update the saved props of a listing and count of collection when clicked
-  const update = { savedTo: req.body.name, isSaved: req.body.isSaved };
-  const { houseId, name } = { houseId: req.body.houseId, name: req.body.name };
-  const cb = (err) => {
-    if (err) {
-      res.status(500).send('Failed to update collection');
-    } else {
-      res.status(202).send('Updated listing & collection');
-    }
-  };
-
-  if (req.body.isSaved === 'true') {
-    // if saving, increment count and update save props of listing to true
-    control.saveToList({ update, houseId, name }, cb);
+const getCallback = (req, res) => (err, data) => {
+  if (err) {
+    res.status(400).send(err.message);
   } else {
-    // else, decrement count and change save to false
-    control.removeFromList({ update, houseId, name }, cb);
+    res.status(200).send(data.rows);
+  }
+};
+
+const postCallback = (req, res) => (err, data) => {
+  if (err) {
+    res.status(400).send(err.message);
+  } else {
+    res.status(202).send(data.rows);
+  }
+};
+
+const patchCallback = (req, res) => (err, result) => {
+  if (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  } else {
+    res.status(202).send(result);
+  }
+};
+
+// get 12 random listings from listings DB
+router.get('/api/users/:user_id/more_places', (req, res) => {
+  model.getListings(getCallback(req, res));
+});
+
+// get all lists that have been created from saved DB
+router.get('/api/users/:user_id/collections', (req, res) => {
+  model.getCollectionsByUser(req.params.user_id, (err, data) => {
+    if (err) {
+      res.status(400).send(err.message);
+    } else {
+      const collArray = [];
+      if (data.rows.length) {
+        const collections = {};
+        for (let i = 0; i < data.rows.length; i += 1) {
+          if (collections[data.rows[i].collection_name]) {
+            collections[data.rows[i].collection_name].count += 1;
+          } else {
+            collections[data.rows[i].collection_name] = data.rows[i];
+            collections[data.rows[i].collection_name].count = 1;
+          }
+        }
+        const key = Object.keys(collections)
+        for (let j = 0; j < key.length; j += 1) {
+          collArray.push(collections[key[j]]);
+        }
+      }
+      res.status(200).send(collArray);
+    }
+  });
+});
+
+// insert a new list into the saved DB
+// router.post('/api/user/:id/collections', (req, res) => {
+//   console.log('saving collection ', req.body.name);
+//   const data = {
+//     name: req.body.name,
+//     photoUrl: req.body.photoUrl,
+//     count: 1,
+//     time: 'Any time',
+//   };
+//   model.createList(data, postCallback(req, res));
+// });
+
+// update user's saved property records
+router.patch('/api/users/:user_id/collections', (req, res) => {
+  console.log('name ', req.body.collection_name);
+  const update = {
+    user_id: req.params.user_id,
+    property_id: req.body.houseId,
+    collection_name: req.body.collection_name,
+    photo_url: req.body.photo_url,
+  };
+  if (req.body.isSaved === 'true') {
+    model.saveProperty(update, patchCallback(req, res));
+  } else {
+    model.unsaveProperty(update, patchCallback(req, res));
   }
 });
 
-router.get('/api/properties/collections', (req, res) => {
-  // get specific collection by houseId
-  control.getHouseList(req.query.houseId, (err, data) => {
-    if (err) {
-      res.status(400).send('Failed to get lists');
-    } else {
-      const result = JSON.parse(JSON.stringify(data));
-      res.status(200).send(result[0]);
-    }
-  });
+router.get('/api/users/:user_id/properties/:property_id', (req, res) => {
+  // get specific collection by houseId (BE SURE TO LIMIT 1)
+  model.getSavedProperty(req.params, getCallback(req, res));
 });
 
-router.delete('/api/collections', (req, res) => {
+router.delete('/api/users/:user_id/collections', (req, res) => {
   // removes all collections saved collection by name
-  control.removeAllLists((err, data) => {
+  model.removeCollection((err, data) => {
     if (err) {
       res.status(500).send('Failed to delete records');
     } else {
@@ -87,32 +103,5 @@ router.delete('/api/collections', (req, res) => {
     }
   });
 });
-
-// may be able to deprecate this one
-// router.patch('/api/revert_saved', (req, res) => {
-//   control.revertSaved((err) => {
-//     if (err) {
-//       res.status(500).send('Failed to revert saved records');
-//     } else {
-//       res.status(202);
-//     }
-//   });
-// });
-
-// may be able to deprecate this one, it looks like the app is onlu using the one below
-// router.patch('/api/saved_listing', (req, res) => {
-//   // update the saved props of a listing when created
-//   let houseId = req.body.houseId;
-//   let name = req.body.name;
-//   let update = { savedTo: req.body.name, isSaved: true};
-//   // db.Listing.findOneAndUpdate(filter, { '$set': update }).exec(
-//   control.saveToList({ houseId, update, name }, (err) => {
-//     if (err) {
-//       res.status(500).send('Failed to update');
-//     } else {
-//       res.status(202).send('Updated listing');
-//     }
-//   });
-// });
 
 module.exports = router;
