@@ -1,31 +1,42 @@
 const express = require('express');
 
 const router = express.Router();
-// const db = require('./database/index');
 const model = require('./database/model/cassandraModel');
 
-const callback = (req, res) => (err, data) => {
+const getCallback = (req, res) => (err, data) => {
   if (err) {
-    res.status(400).send(err.name);
+    res.status(400).send(err.message);
   } else {
     res.status(200).send(data.rows);
   }
 };
 
-router.get('/api/listing/:id/more-places', (req, res) => {
-  // get 12 random listings from listings DB
-  model.getListings(callback(req, res));
+const postCallback = (req, res) => (err, data) => {
+  if (err) {
+    res.status(400).send(err.message);
+  } else {
+    res.status(202).send(data.rows);
+  }
+};
+
+const patchCallback = (req, res) => (err, result) => {
+  if (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  } else {
+    res.status(202).send(result);
+  }
+};
+
+
+// get 12 random listings from listings DB
+router.get('/api/listing/:user_id/more-places', (req, res) => {
+  model.getListings(getCallback(req, res));
 });
 
-router.get('/api/user/:id/collections', (req, res) => {
-  // get all lists that have been created from saved DB
-  model.getLists((err, data) => {
-    if (err) {
-      res.status(400).send('Failed to get lists');
-    } else {
-      res.status(200).send(data);
-    }
-  });
+// get all lists that have been created from saved DB
+router.get('/api/user/:user_id/collections', (req, res) => {
+  model.getCollectionsByUser(req.params.user_id, getCallback(req, res));
 });
 
 router.post('/api/user/:id/collections', (req, res) => {
@@ -37,39 +48,27 @@ router.post('/api/user/:id/collections', (req, res) => {
     count: 1,
     time: 'Any time',
   };
-  model.createList(data, (err) => {
-    if (err) {
-      res.status(400).send('Failed to create list');
-    } else {
-      res.status(202).send('List created');
-    }
-  });
+  model.createList(data, postCallback(req, res));
 });
 
-router.patch('/api/user/:id/collections', (req, res) => {
+router.patch('/api/user/:user_id/collections', (req, res) => {
   // update the saved props of a listing and count of collection when clicked
-  const update = { savedTo: req.body.name, isSaved: req.body.isSaved };
-  const { houseId, name } = { houseId: req.body.houseId, name: req.body.name };
-  const cb = (err) => {
-    if (err) {
-      res.status(500).send('Failed to update collection');
-    } else {
-      res.status(202).send('Updated listing & collection');
-    }
+  const update = {
+    user_id: req.params.user_id,
+    property_id: req.body.houseId,
+    collection_name: req.body.name,
+    photo_url: req.body.photo_url,
   };
-
   if (req.body.isSaved === 'true') {
-    // if saving, increment count and update save props of listing to true
-    model.saveToList({ update, houseId, name }, cb);
+    model.saveProperty(update, patchCallback(req, res));
   } else {
-    // else, decrement count and change save to false
-    model.removeFromList({ update, houseId, name }, cb);
+    model.unsaveProperty(update, patchCallback(req, res));
   }
 });
 
-router.get('/api/user/:id/properties/:id/collections', (req, res) => {
-  // get specific collection by houseId
-  model.getHouseList(req.params.id, (err, data) => {
+router.get('/api/user/:user_id/properties/:property_id/collections', (req, res) => {
+  // get specific collection by houseId (BE SURE TO LIMIT 1)
+  model.getHouseList(req.params, (err, data) => {
     if (err) {
       res.status(400).send('Failed to get lists');
     } else {
@@ -79,7 +78,7 @@ router.get('/api/user/:id/properties/:id/collections', (req, res) => {
   });
 });
 
-router.delete('/api/user/:id/collections', (req, res) => {
+router.delete('/api/user/:user_id/collections', (req, res) => {
   // removes all collections saved collection by name
   model.removeAllLists((err, data) => {
     if (err) {

@@ -8,6 +8,7 @@ const client = new cassandra.Client({
   keyspace: 'more_places',
 });
 
+// helper
 const generate12propertyIds = () => {
   const result = [];
   for (let i = 0; i < 12; i += 1) {
@@ -16,50 +17,44 @@ const generate12propertyIds = () => {
   return result;
 };
 
-module.exports = {
-  getListings: (callback) => {
-    const query = 'SELECT * FROM properties_by_id WHERE property_id IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    const params = generate12propertyIds();
-    client.execute(query, params, { prepare: true }, callback);
-  },
-  getCollectionsByUser: (user_id) => {
-    const query = 'SELECT * FROM collections_by_user WHERE user_id = ?';
-    const params = [ user_id ];
-    client.execute(query, params)
-      .then((result) => console.log('User has a collection called: ', result.rows[0].collection_name));
-  },
-  saveProperty: (user_id, collection_name, property_id, photo_url) => {
-    const queries = [
-      {
-        query: 'INSERT INTO collections_by_user(user_id, collection_name, photo_url, property_id)  VALUES (?, ?, ?, ?)',
-        params: [ user_id, collection_name, property_id, photo_url ],
-      },
-      {
-        query: 'INSERT INTO collections_by_properties_id(user_id, property_id, collection_name) VALUES (?, ?, ?)',
-        params: [ user_id, property_id, collection_name ],
-      },
-    ];
-    const queryOptions = { prepare: true, consistency: cassandra.types.consistencies.localQuorum };
-    client.batch(queries, queryOptions)
-      .then(() => console.log('Data updated on cluster'));
-  },
+exports.getListings = (callback) => {
+  const query = 'SELECT * FROM properties_by_id WHERE property_id IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  const params = generate12propertyIds();
+  client.execute(query, params, { prepare: true }, callback);
 };
 
-// for batch queries
+exports.getCollectionsByUser = (user_id, callback) => {
+  const query = 'SELECT * FROM collections_by_user WHERE user_id = ?';
+  const params = [ user_id ];
+  client.execute(query, params, { prepare: true }, callback);
+};
 
-// const queries = [
-//   {
-//     query: 'UPDATE user_profiles SET email=? WHERE key=?',
-//     params: [emailAddress, 'hendrix'],
-//   },
-//   {
-//     query: 'INSERT INTO user_track (key, text, date) VALUES (?, ?, ?)',
-//     params: ['hendrix', 'Changed email', new Date()],
-//   },
-// ];
-// const queryOptions = { prepare: true, consistency: cassandra.types.consistencies.localQuorum };
+exports.saveProperty = (data, callback) => {
+  const queries = [
+    {
+      query: 'INSERT INTO collections_by_user(user_id, collection_name, photo_url, property_id)  VALUES (?, ?, ?, ?)',
+      params: [ data.user_id, data.collection_name, data.property_id, data.photo_url ],
+    },
+    {
+      query: 'INSERT INTO collections_by_properties_id(user_id, property_id, collection_name) VALUES (?, ?, ?)',
+      params: [ data.user_id, data.property_id, data.collection_name ],
+    },
+  ];
+  const queryOptions = { prepare: true };
+  client.batch(queries, queryOptions, callback);
+};
 
-// client.batch(queries, queryOptions)
-//   .then(() => console.log('Data updated on cluster'));
-
-console.log(generate12propertyIds());
+exports.unsaveProperty = (data, callback) => {
+  const queries = [
+    {
+      query: 'DELETE FROM collections_by_user WHERE user_id = ? AND collection_name = ? AND property_id = ?',
+      params: [ data.user_id, data.collection_name, data.property_id ],
+    },
+    {
+      query: 'DELETE FROM collections_by_properties_id WHERE user_id = ? AND property_id = ?',
+      params: [ data.user_id, data.property_id ],
+    },
+  ];
+  const queryOptions = { prepare: true };
+  client.batch(queries, queryOptions, callback);
+};
