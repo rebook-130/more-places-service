@@ -18,7 +18,7 @@ const generate12propertyIds = () => {
 };
 
 exports.getListings = (callback) => {
-  const query = 'SELECT * FROM properties_by_id WHERE property_id IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  const query = 'SELECT * FROM properties WHERE property_id IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   const params = generate12propertyIds();
   client.execute(query, params, { prepare: true }, callback);
 };
@@ -32,7 +32,7 @@ exports.getCollectionsByUser = (user_id, callback) => {
 exports.saveProperty = (data, callback) => {
   const queries = [
     {
-      query: 'INSERT INTO collections_by_user(user_id, collection_name, photo_url, property_id)  VALUES (?, ?, ?, ?)',
+      query: 'INSERT INTO collections_by_user(user_id, collection_name, property_id, photo_url)  VALUES (?, ?, ?, ?)',
       params: [ data.user_id, data.collection_name, data.property_id, data.photo_url ],
     },
     {
@@ -57,4 +57,10 @@ exports.unsaveProperty = (data, callback) => {
   ];
   const queryOptions = { prepare: true };
   client.batch(queries, queryOptions, callback);
+};
+
+exports.getSavedProperty = (data, callback) => {
+  const query = 'SELECT * FROM collections_by_properties_id WHERE user_id = ? AND property_id = ? LIMIT 1';
+  const params = [ data.user_id, data.property_id ];
+  client.execute(query, params, { prepare: true }, callback);
 };

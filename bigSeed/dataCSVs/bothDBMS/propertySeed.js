@@ -53,22 +53,18 @@ const generatePropData = () => {
   let counter = 0;
   writer.pipe(fs.createWriteStream('propertySeed.csv'));
   for (let i = 0; i < 10000000; i += 1) {
-    let superhost = 0;
-    if (Math.floor(Math.random() * 10)) {
-      superhost = 1;
-    }
     writer.write({
       // partition_id: partitionIds[Math.floor(Math.random() * 19)],
       property_id: counter += 1,
-      photoUrl: `https://more-places-photos.s3.us-east-2.amazonaws.com/property${Math.ceil(Math.random() * 924)}.jpg`,
       descrip: randomDescription(),
-      superhost,
-      rating: Math.round((Math.random() * 2 + 3) * 100) / 100,
+      superhost: Math.round(Math.random() * .6),
+      rating: `${Math.round(Math.random() * 2) + 3}.${Math.round(Math.random() * 10)}`,
       review_count: Math.floor(Math.random() * 5000),
       room_type: roomType[Math.floor(Math.random() * roomType.length)],
       beds: Math.ceil(Math.random() * 8),
       price: (Math.random() * 300 + 19),
       location: location[Math.floor(Math.random() * location.length)],
+      photo_url: `https://more-places-photos.s3.us-east-2.amazonaws.com/property${Math.ceil(Math.random() * 924)}.jpg`,
     });
   }
 };

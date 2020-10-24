@@ -19,15 +19,15 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS properties (
   property_id bigint,
-  photoURL text,
   descrip text,
   superhost int,
-  rating float,
+  rating text,
   review_count int,
   room_type text,
   beds smallint,
   price float,
   location text,
+  photo_url text,
   PRIMARY KEY (property_id)
 );
 
@@ -112,7 +112,7 @@ COPY users (id, name) FROM ‘/Users/jamesscolamieri/work/system-design-capstone
 COPY users(id,name) FROM '/Users/jamesscolamieri/work/system-design-capstone/more-p
 laces-service/bigSeed/dataCSVs/bothDBMS/users.csv' WITH header=true;
 
-COPY properties_by_id(property_id,photoURL,descrip,superhost,rating,review_count,beds,price,location) FROM '/Users/jamesscolamieri/work/system-design-capstone/more-places-service/bigSeed/dataCSVs/bothDBMS/propertySeed.csv' WITH header=true;
+COPY properties(property_id,descrip,superhost,rating,review_count,room_type,beds,price,location,photo_url) FROM '/Users/jamesscolamieri/work/system-design-capstone/more-places-service/bigSeed/dataCSVs/bothDBMS/propertySeed.csv' WITH header=true;
 
 COPY collections_by_user(user_id,collection_name,property_id,photo_url) FROM '/Users/jamesscolamieri/work/system-design-capstone/more-places-service/bigSeed/dataCSVs/cassandra/cassCollectionsByUserSeed.csv' WITH header=true;
 */
