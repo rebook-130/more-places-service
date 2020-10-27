@@ -11,17 +11,17 @@ const getCallback = (req, res) => (err, data) => {
   }
 };
 
-const postCallback = (req, res) => (err, data) => {
-  if (err) {
-    res.status(400).send(err.message);
-  } else {
-    res.status(202).send(data.rows);
-  }
-};
+// const postCallback = (req, res) => (err, data) => {
+//   if (err) {
+//     res.status(400).send(err.message);
+//   } else {
+//     res.status(202).send(data.rows);
+//   }
+// };
 
 const patchCallback = (req, res) => (err, result) => {
   if (err) {
-    console.log(err);
+    // console.log(err);
     res.status(500).send(err.message);
   } else {
     res.status(202).send(result);
@@ -74,7 +74,8 @@ router.get('/api/users/:user_id/collections', (req, res) => {
 
 // update user's saved property records
 router.patch('/api/users/:user_id/collections', (req, res) => {
-  console.log('name ', req.body.collection_name);
+  // console.log('name ', req.body);
+  // console.log(req.body.collection_name);
   const update = {
     user_id: req.params.user_id,
     property_id: req.body.houseId,
