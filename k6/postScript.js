@@ -6,17 +6,24 @@ import { Rate } from 'k6/metrics';
 export const errorRate = new Rate('errors');
 
 export const options = {
-  vus: 1,
-  duration: '5s',
+  stages: [
+    { duration: '2s', target: 600 },
+    { duration: '2s', target: 1200 },
+    { duration: '2s', target: 1400 },
+    { duration: '30s', target: 1400 },
+  ],
   thresholds: {
-    'errorRate': ['rate<0.1'], // <10% errors
-    http_req_duration: ['p(90) < 100'],
+    errorRate: ['rate<0.1'], // <10% errors
+    http_req_duration: ['p(90) < 50'],
   },
 };
 
 const patchSaveProperty = (update) => {
   const res = http.patch(`http://127.0.0.1:3004/api/users/${update.user_id}/collections`, update, { 'Content-Type': 'application/x-www-form-urlencoded' });
-  errorRate.add(res.status !== 201);
+  const result = check(res, {
+    'status is 202': (r) => r.status == 202,
+  });
+  errorRate.add(!result);
 };
 
 export default () => {

@@ -30,7 +30,7 @@ exports.getCollectionsByUser = (user_id, callback) => {
 };
 
 exports.saveProperty = (data, callback) => {
-  console.log(data.collection_name);
+  // console.log(data.collection_name);
   const queries = [
     {
       query: 'INSERT INTO collections_by_user(user_id, collection_name, property_id, photo_url)  VALUES (?, ?, ?, ?)',
